@@ -1,0 +1,84 @@
+<%- include("./partials/header.ejs") %>
+<section class="movies">
+  <h2 class="movies__header">FILMER PÅ KINO</h2>
+  <ul class="movies__list">
+    <% movies.forEach((movie)=>{ %>
+      <li>
+      <a href="/movie/<%=movie.id%>" id="<%= movie.id %>">
+        <article class="movie-card">
+          <img class="movie-card__image" src="<%=movie.attributes.image.url%>" alt="Movie title: <%=movie.attributes.title%>">
+          <h3 class="movie-card_title"><%=movie.attributes.title%></h3>
+        </article>
+      </a>
+    </li>
+    <% }); %>
+  </ul>
+  <div class="movies__actions">
+    <a href="#" class="movies__actions-bookTicket" aria-label="Book moive tickets now">BOKA BILJETT</a>
+    <a href="movies.html" class="movies__actions-seeAll" aria-label="See all movies">SE ALLA FILMER</a>
+  </div>
+</section>
+<section class="live">
+  <h2 class="live__header">LIVE PÅ KINO</h2>
+  <ul class="live__list"></ul>
+  <div class="live__actions">
+    <a href="#" class="live__actions-bookTicket" aria-label="Book live tickets now">BOKA BILJETT TILL LIVE-EVENT</a>
+    <a href="#" class="live__actions-seeAll" aria-label="See all live-events">SE ALLA LIVE-EVENT</a>
+  </div>
+</section>
+<section class="tagline">
+  <h2 class="tagline__heading">KINO - EN ALLDELES SPECIELL BIOUPPLEVELSE</h2>
+  <p class="tagline__subheading">AV FILMÄLSKARE - FÖR FILMÄLSKARE</p>
+</section>
+<section class="buttons_membership_events">
+  <button class="membership">BLI MEDLEM</button>
+  <button class="events">EVENEMANG</button>
+</section>
+<section class="story">
+  <img
+    src="static/dist/images/Kino_exterior.png"
+    alt="Image of the entrance to a Kino cinema"
+    class="story__image_1"
+  />
+  <div class="story__content_1">
+    <h2 class="story__heading">DIN LOKALA BIOGRAF</h2>
+    <p class="story__text">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iusto aspernatur culpa reiciendis vitae doloribus
+      nobis exercitationem sunt, dolore quisquam nesciunt ipsa. Ratione maxime, officiis facilis velit ab odio vel.
+    </p>
+  </div>
+  <div class="story__content_2">
+    <h2 class="story__heading">ANNORLUND OCH UNIKT</h2>
+    <p class="story__text">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iusto aspernatur culpa reiciendis vitae doloribus
+      nobis exercitationem sunt, dolore quisquam nesciunt ipsa. Ratione maxime, officiis facilis velit ab odio vel.
+    </p>
+  </div>
+  <img
+    src="/static/dist/images/Kino_doors.png"
+    alt="Image of a hallway leading to a door with the Kino logo"
+    class="story__image_2"
+  />
+</section>
+<section class="event">
+  <img src="/static/dist/images/Kino_festival.png" alt="Image of an event" class="event_image" />
+</section>
+<section class="features">
+  <img src="/static/dist/images/Kino_screen.png" alt="Image of film screen" class="features__image_1" />
+  <div class="features__content_1">
+    <h2 class="features__heading">BÄTTRE LJUD OCH BILD ÄN HEMMA</h2>
+    <p class="features__text">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iusto aspernatur culpa reiciendis vitae doloribus
+      nobis exercitationem sunt, dolore quisquam nesciunt ipsa. Ratione maxime, officiis facilis velit ab odio vel.
+    </p>
+  </div>
+  <div class="features__content_2">
+    <h2 class="features__heading">MAT OCH DRYCK VID DIN PLATS</h2>
+    <p class="features__text">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iusto aspernatur culpa reiciendis vitae doloribus
+      nobis exercitationem sunt, dolore quisquam nesciunt ipsa. Ratione maxime, officiis facilis velit ab odio vel.
+    </p>
+  </div>
+  <img src="/static/dist/images/Kino_seats.png" alt="Image of the auditorium seats" class="features__image_2" />
+</section>
+<%- include("./partials/footer.ejs") %>

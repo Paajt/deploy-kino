@@ -11,7 +11,8 @@
 @use '_buttons_membership_events';
 @use '_tagline';
 @use '_all_movie';
-
+@use '_movie';
+@use '_error404';
 * {
   margin: 0;
   padding: 0;
