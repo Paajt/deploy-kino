@@ -1,0 +1,18 @@
+<%- include("./partials/header.ejs") %>
+  <div class='moviesSecond2'>
+    <div class='movies__message'>
+      <ul class='moviesSecond__list'>
+        <% movies.forEach((movie)=>{ %>
+          <li class='moviesSecond__list__elem'>
+            <a href='/movie/<%=movie.id%>'>
+              <img src='<%=movie.attributes.image.url%>' class='moviesSecond__list__elem__image' alt='' />
+            </a>
+            <h3 class='moviesSecond__list__elem__title'><%=movie.attributes.title%></h3>
+            <p class='moviesSecond__list__elem__desc'><%=movie.attributes.intro%></p>
+          </li>
+        <% }); %>
+      
+      </ul>
+    </div>
+  </div>
+<%- include("./partials/footer.ejs") %>
