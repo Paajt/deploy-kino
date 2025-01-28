@@ -6,7 +6,7 @@ import MovieCardGenerator from './js/_frontpage_movie_cards.js';
 import ApiBackend from './js/ApiBackend.js';
 import MobileMenu from './js/MobileMenu.js';
 import initLiveEvents from './js/_initLiveEvents.js';
-import checkMovieScreenInfo from './js/_initScreenings';
+import buildScreeningInfo from './js/_initScreenings';
 
 // if (document.querySelector('.moviesSecond')) {
 //   const loadingMessage = document.createElement('h4');
