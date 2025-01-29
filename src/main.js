@@ -7,6 +7,7 @@ import ApiBackend from './js/ApiBackend.js';
 import MobileMenu from './js/MobileMenu.js';
 import initLiveEvents from './js/_initLiveEvents.js';
 import checkMovieScreenInfo from './js/_initScreenings';
+// import { fetchAndDisplayScreenings } from './lib/fetchScreenings.js'; 
 
 // if (document.querySelector('.moviesSecond')) {
 //   const loadingMessage = document.createElement('h4');
