@@ -2,6 +2,8 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
+import getReviewById from './getReviewById.js';
+import cmsAdapter from './cmsAdapter.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -22,7 +24,7 @@ async function setupVite(app, vite) {
 function initApp(api) {
   // create a new express application/server
   const app = express();
-
+  app.use(express.json());
   // sets the view engine to EJS
   app.set('view engine', 'ejs');
   // sets view directory (the folder with EJS files)
@@ -64,6 +66,15 @@ function initApp(api) {
     } catch (err) {
       console.error('Error loading movie', err);
       response.status(500).send('Error loading movie');
+    }
+  });
+
+  app.get('/movie/:movieId/reviews', async (request, response) => {
+    try {
+      const reviews = await getReviewById(cmsAdapter, request.params.movieId);
+      response.status(200).json(reviews);
+    } catch (error) {
+      response.status(500).send('Error loading reviews');
     }
   });
 
