@@ -67,6 +67,20 @@ function initApp(api) {
     }
   });
 
+  app.get('/api/movie/:movieId/reviews', async (req, res) => {
+    try {
+      const movieId = req.params.movieId;
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 5;
+
+      const reviews = await api.fetchMovieReviews(movieId, page, pageSize);
+      res.json(reviews);
+    } catch (error) {
+      console.error('Failed to fetch reviews:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
   // static assets
   app.use('/static', express.static('static'));
 

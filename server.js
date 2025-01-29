@@ -1,10 +1,12 @@
 import { initApp, setupVite } from './src/js/app.js';
 import { loadMovie, loadMovies } from './lib/movies.js';
 import { createServer as createViteServer } from 'vite'; // Add Vite
+import { fetchMovieReviews } from './src/routes/fetchMovieReview.js';
 
 const api = {
   loadMovie,
   loadMovies,
+  fetchMovieReviews,
 };
 async function startServer() {
   const app = initApp(api);
