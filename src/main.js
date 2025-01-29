@@ -7,6 +7,45 @@ import MobileMenu from './js/MobileMenu.js';
 import initLiveEvents from './js/_initLiveEvents.js';
 import checkMovieScreenInfo from './js/_initScreenings';
 
+document.getElementById('reviewForm').addEventListener('submit', async function (event) {
+  event.preventDefault();
+
+  const movieId = document.getElementById('movieId').value;
+  const author = document.getElementById('author').value;
+  const comment = document.getElementById('comment').value;
+  const rating = parseInt(document.getElementById('rating').value);
+
+  const reviewData = {
+    data: {
+      comment,
+      rating,
+      author,
+      verified: true,
+      movie: '',
+      createdAt: '2025-01-29T16:48:30.575Z',
+      updatedAt: '2025-01-29T16:48:30.575Z',
+      createdBy: 'test',
+      updatedBy: 'test',
+    },
+  };
+
+  try {
+    const response = await fetch(`http://localhost:5080/movie/${movieId}/reviews`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reviewData),
+    });
+
+    const result = await response.json();
+    alert('Tack för din kommentar!');
+    console.log('Svar:', result);
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Det gick inte att skicka resention');
+  }
+});
 // if (document.querySelector('.moviesSecond')) {
 //   const loadingMessage = document.createElement('h4');
 //   loadingMessage.classList.add('movies__message__new');
