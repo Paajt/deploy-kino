@@ -53,9 +53,15 @@ const checkMovieScreenInfo = async () => {
 
 async function buildScreeningInfo() {
   const screeningInfo = await checkMovieScreenInfo();
+  // get ul from DOM
+  const screeningList = document.querySelector('.screening__info-list');
 
   if (!screeningInfo || screeningInfo.length === 0) {
     console.log('No screening data available.');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = ` <span class="screening-time">listan är tom</span>`;
+
+    screeningList.appendChild(listItem);
     return;
   }
   // sort based on time
@@ -65,8 +71,6 @@ async function buildScreeningInfo() {
     return dateA - dateB;
   });
 
-  // get ul from DOM
-  const screeningList = document.querySelector('.screening__info-list');
   screeningList.innerHTML = '';
 
   // create li elements
