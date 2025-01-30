@@ -31,11 +31,38 @@ const cmsAdapter = {
   // New Methods for Screenings
   
   // Get all screenings (GET /screenings)
-  loadAllScreenings: async () => {
+  
+// Get all screenings (GET /screenings)
+loadAllScreenings: async () => {
     const url = API_MOVIES + '/screenings';
-    const resp = await fetch(url);
-    const payload = await resp.json();
-    return payload.data;
+  
+    try {
+      const resp = await fetch(url, {
+        cache: 'no-store',  // Prevent the browser from using cached data
+      });
+  
+      if (!resp.ok) {
+        // Log the status code for debugging
+        console.error("Error fetching screenings", resp.status);
+        return [];  // Return an empty array if the fetch fails
+      }
+  
+      const payload = await resp.json();
+  
+      // Log the fetched data for debugging
+      console.log("Fetched screenings:", payload);
+  
+      if (payload && Array.isArray(payload.data)) {
+        return payload.data;  // Return the screenings if the data exists
+      } else {
+        console.error("Invalid data format:", payload);
+        return [];  // Return an empty array if the data format is not valid
+      }
+    } catch (error) {
+      // Catch any errors that happen during the fetch
+      console.error("Error during fetch:", error);
+      return [];  // Return an empty array in case of an error
+    }
   },
 
   // Get screenings by movie ID (GET /screenings?filters[movie]=id)

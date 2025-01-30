@@ -5,6 +5,38 @@ import * as marked from 'marked';
 import cmsAdapter from './cmsAdapter.js';
 import ScreeningList from '../../lib/ScreeningList.js';
 
+// Helper function to generate random date within the next 5 days
+function getRandomDateWithinNext5Days() {
+  const today = new Date();
+  const maxDate = new Date();
+  maxDate.setDate(today.getDate() + 5); // 5 days later
+
+  // Get a random date between today and 5 days later
+  const randomTime = today.getTime() + Math.random() * (maxDate.getTime() - today.getTime());
+  return new Date(randomTime);
+}
+
+// Function to generate mock screenings for movies
+async function getUpcomingScreenings(movies) {
+  const rooms = ['Stora salongen', 'Lilla salongen', 'VIP Room', 'IMAX', 'Screen 5'];
+
+  // Create a mock screening for each movie (limit to 10)
+  return movies.slice(0, 10).map(movie => {
+    // Generate a random start time for the screening
+    const start_time = getRandomDateWithinNext5Days().toISOString();
+    
+    // Randomly pick a room
+    const room = rooms[Math.floor(Math.random() * rooms.length)];
+
+    return {
+      movieId: movie.id,
+      movieTitle: movie.attributes.title,
+      start_time,
+      room,
+    };
+  });
+}
+
 // vite
 async function setupVite(app, vite) {
   // Set views directory
@@ -33,8 +65,11 @@ function initApp(api) {
   // Routes
   app.get('/', async (request, response) => {
     try {
+      console.log('Fetching movies and screenings');
       const movies = await api.loadMovies(); // Fetch all movies
-      const screenings = await api.loadAllScreenings(); // Fetch all screenings
+
+      // Generate mock screenings for the movies
+      const screenings = await getUpcomingScreenings(movies);
   
       const limitedMovies = movies.slice(0, 4); // Get the first 4 movies
   
@@ -62,6 +97,7 @@ function initApp(api) {
   app.get('/about-us', async (request, response) => {
     response.render('about-us.ejs');
   });
+
   app.get('/movies', async (request, response) => {
     const movies = await api.loadMovies();
     response.render('movies.ejs', { movies });
