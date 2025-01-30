@@ -1,8 +1,5 @@
 <%- include("./partials/header.ejs") %>
 <section class="movies">
-  <div class="screenings">
-    <h3>Screenings Data</h3>
-<pre><%= JSON.stringify(screenings, null, 2) %></pre>
 <h2 class="movies__header">KOMMANDE FILMVISNINGAR</h2>
 <ul class="movies__list">
   <% movies.forEach((movie) => { %>
@@ -10,38 +7,21 @@
       <a href="/movie/<%= movie.id %>" id="<%= movie.id %>">
         <article class="movie-card">
           <img class="movie-card__image" src="<%= movie.attributes.image.url %>" alt="Movie title: <%= movie.attributes.title %>">
-          <h3 class="movie-card_title"><%= movie.attributes.title %></h3>
+          <h3 class="movie-card__title"><%= movie.attributes.title %></h3>
+          <ul class="screenings-list">
+            <% screenings.forEach(screening => { %>
+              <% if(screening.movieId === movie.id) { %>
+                <li class="screening-item">
+                  <strong><%= screening.room %>:</strong> <%= new Date(screening.start_time).toLocaleString() %>
+                </li>
+              <% } %>
+            <% }) %>
+          </ul>
         </article>
       </a>
     </li>
   <% }); %>
 </ul>
-<h1>Upcoming Movies</h1>
-
-<!-- Display the first 4 movies -->
-<h2>Now Showing</h2>
-<div class="movies">
-  <% movies.forEach(movie => { %>
-    <div class="movie">
-      <h3><%= movie.attributes.title %></h3>
-      <p><%= movie.attributes.intro || 'No intro available' %></p>
-      <p><strong>Release Date:</strong> <%= movie.attributes.release_date %></p>
-
-      <!-- Display the screenings for the movie -->
-      <h4>Upcoming Showings:</h4>
-      <ul>
-        <% screenings.forEach(screening => { %>
-          <% if(screening.movieId === movie.id) { %>
-            <li>
-              <strong><%= screening.room %>:</strong> <%= new Date(screening.start_time).toLocaleString() %>
-            </li>
-          <% } %>
-        <% }) %>
-      </ul>
-    </div>
-  <% }) %>
-</div>
-  </ul>
   <div class="movies__actions">
     <a href="#" class="movies__actions-bookTicket" aria-label="Book moive tickets now">BOKA BILJETT</a>
     <a href="movies.html" class="movies__actions-seeAll" aria-label="See all movies">SE ALLA FILMER</a>

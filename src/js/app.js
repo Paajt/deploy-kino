@@ -71,7 +71,7 @@ function initApp(api) {
       // Generate mock screenings for the movies
       const screenings = await getUpcomingScreenings(movies);
   
-      const limitedMovies = movies.slice(0, 4); // Get the first 4 movies
+      const limitedMovies = movies.slice(0, 10); // Get the first 4 movies
   
       // You might want to filter screenings to show only those within the next 5 days
       const today = new Date();
