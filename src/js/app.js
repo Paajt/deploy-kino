@@ -2,6 +2,7 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
+import cmsAdapter from './cmsAdapter.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -73,7 +74,8 @@ function initApp(api) {
       const page = parseInt(req.query.page) || 1;
       const pageSize = parseInt(req.query.pageSize) || 5;
 
-      const reviews = await api.fetchMovieReviews(movieId, page, pageSize);
+      // Use cmsAdapter to fetch reviews
+      const reviews = await cmsAdapter.fetchMovieReviews(movieId, page, pageSize);
       res.json(reviews);
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
