@@ -12,6 +12,16 @@
       </a>
     </li>
     <% }); %>
+    <h2>Upcoming Screenings (Next 5 Days)</h2>
+    <div class="screenings-list">
+      <% screenings.forEach(screening => { %>
+        <div class="screening-item">
+          <p><strong>Movie:</strong> <%= screening.movie.title %></p>
+          <p><strong>Room:</strong> <%= screening.room %></p>
+          <p><strong>Time:</strong> <%= new Date(screening.start_time).toLocaleString() %></p>
+        </div>
+      <% }) %>
+    </div>
   </ul>
   <div class="movies__actions">
     <a href="#" class="movies__actions-bookTicket" aria-label="Book moive tickets now">BOKA BILJETT</a>

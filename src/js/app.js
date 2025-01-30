@@ -2,6 +2,8 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
+import cmsAdapter from './cmsAdapter.js';
+import ScreeningList from '../../lib/ScreeningList.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -31,12 +33,29 @@ function initApp(api) {
   // Routes
   app.get('/', async (request, response) => {
     try {
-      const movies = await api.loadMovies();
-      const limitedMovies = movies.slice(0, 4); //gets the first 4 movies
-      response.render('index.ejs', { movies: limitedMovies });
+      const movies = await api.loadMovies(); // Fetch all movies
+      const screenings = await api.loadAllScreenings(); // Fetch all screenings
+  
+      const limitedMovies = movies.slice(0, 4); // Get the first 4 movies
+  
+      // You might want to filter screenings to show only those within the next 5 days
+      const today = new Date();
+      const fiveDaysLater = new Date();
+      fiveDaysLater.setDate(today.getDate() + 5);
+  
+      const limitedScreenings = screenings.filter(screening => {
+        const screeningDate = new Date(screening.start_time);
+        return screeningDate >= today && screeningDate <= fiveDaysLater;
+      }).slice(0, 10); // Limit to 10 screenings if there are more
+  
+      // Render the EJS template with both movies and screenings data
+      response.render('index.ejs', {
+        movies: limitedMovies,
+        screenings: limitedScreenings
+      });
     } catch (err) {
-      console.error('Error loading movie', err);
-      response.status(500).send('Error loading movie');
+      console.error('Error loading data', err);
+      response.status(500).send('Error loading data');
     }
   });
 
