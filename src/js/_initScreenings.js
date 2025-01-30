@@ -1,4 +1,5 @@
 import screenings from '../../lib/screenings';
+
 const checkMovieScreenInfo = async () => {
   if (window.location.pathname.startsWith('/movie/')) {
     const getMovieIDfromUrl = function () {
@@ -11,10 +12,12 @@ const checkMovieScreenInfo = async () => {
 
     if (movieID) {
       try {
-        const screeningData = await screenings(movieID);
+        const response = await fetch(`/api/screenings/${movieID}/movie`);
+        const screeningData = await response.json();
+        // const screeningData = await screenings(movieID);
 
         // check if there is data
-        if (screeningData.length === 0) {
+        if (!screeningData || screeningData.length === 0) {
           console.warn('No screening available for this movie');
           return [];
         }
@@ -22,7 +25,7 @@ const checkMovieScreenInfo = async () => {
         const formattedData = screeningData.map((screening) => {
           // use until api update
           const screeningTime = new Date(screening.start_time);
-          screeningTime.setFullYear(screeningTime.getFullYear() + 1);
+          // screeningTime.setFullYear(screeningTime.getFullYear() + 1);
           //
           const year = screeningTime.getFullYear();
           const month = (screeningTime.getMonth() + 1).toString().padStart(2, '0');
@@ -52,35 +55,37 @@ const checkMovieScreenInfo = async () => {
 };
 
 async function buildScreeningInfo() {
-  const screeningInfo = await checkMovieScreenInfo();
-  // get ul from DOM
-  const screeningList = document.querySelector('.screening__info-list');
+  if (window.location.pathname.startsWith('/movie/')) {
+    const screeningInfo = await checkMovieScreenInfo();
+    // get ul from DOM
+    const screeningList = document.querySelector('.screening__info-list');
 
-  if (!screeningInfo || screeningInfo.length === 0) {
-    console.log('No screening data available.');
-    const listItem = document.createElement('li');
-    listItem.innerHTML = ` <span class="screening-time">listan är tom</span>`;
+    if (!screeningInfo || screeningInfo.length === 0) {
+      console.log('No screening data available.');
+      const listItem = document.createElement('li');
+      listItem.innerHTML = ` <span class="screening-time">listan är tom</span>`;
 
-    screeningList.appendChild(listItem);
-    return;
-  }
-  // sort based on time
-  const sortedScreenings = screeningInfo.sort((a, b) => {
-    const dateA = new Date(a.formattedTime);
-    const dateB = new Date(b.formattedTime);
-    return dateA - dateB;
-  });
+      screeningList.appendChild(listItem);
+      return;
+    }
+    // sort based on time
+    const sortedScreenings = screeningInfo.sort((a, b) => {
+      const dateA = new Date(a.formattedTime);
+      const dateB = new Date(b.formattedTime);
+      return dateA - dateB;
+    });
 
-  screeningList.innerHTML = '';
+    screeningList.innerHTML = '';
 
-  // create li elements
-  screeningInfo.forEach(({ formattedTime, room }) => {
-    const listItem = document.createElement('li');
-    listItem.innerHTML = ` <span class="screening-time">Tid: ${formattedTime}</span>
+    // create li elements
+    screeningInfo.forEach(({ formattedTime, room }) => {
+      const listItem = document.createElement('li');
+      listItem.innerHTML = ` <span class="screening-time">Tid: ${formattedTime}</span>
   <span class="screening-room">Sal: ${room}</span>`;
 
-    screeningList.appendChild(listItem);
-  });
+      screeningList.appendChild(listItem);
+    });
+  }
 }
 buildScreeningInfo();
 // checkMovieScreenInfo();

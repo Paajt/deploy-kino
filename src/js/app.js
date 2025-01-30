@@ -2,6 +2,8 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
+//
+import apiRouter from './API.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -67,6 +69,7 @@ function initApp(api) {
     }
   });
 
+  app.use(apiRouter);
   // static assets
   app.use('/static', express.static('static'));
 
