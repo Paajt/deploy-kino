@@ -2,6 +2,7 @@ import express from 'express';
 // import { initApp, setupVite } from './src/js/app.js';
 import { cmsAdapter, cmsAdapterScreenings } from './cmsAdapter.js';
 import screenings from '../../lib/screenings.js';
+
 const router = express.Router();
 
 // screenings API
