@@ -1,60 +1,69 @@
-import screenings from '../lib/screenings';
-import request from 'supertest';
-import { it, expect, jest } from '@jest/globals';
+import screenings from '../lib/screenings.js';
+import { it, describe, expect, jest, beforeEach } from '@jest/globals';
 
 describe('screenings function', () => {
-  it('Should return only future screenings', async () => {
-    global.fetch = jest.fn();
-    const mockData = {
-      data: [
-        {
-          attributes: {
-            start_time: new Date(Date.now() + 86400000).toISOString(),
-            room: 'Stora salongen',
-          },
-        },
-      ],
-    };
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    global.fetch.mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValueOnce(mockData),
-    });
+  it('Should return only future screenings', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            data: [
+              {
+                attributes: {
+                  start_time: new Date(Date.now() + 86400000).toISOString(), // future showings
+                  room: 'Stora Salongen',
+                },
+              },
+            ],
+          }),
+      })
+    );
+
     const result = await screenings('123');
     expect(result.length).toBe(1);
-    expect(result[0].room).toBe('Stora salongen');
+    expect(result[0].room).toBe('Stora Salongen');
   });
 
   it('filters out past screenings', async () => {
-    const mockData = {
-      data: [
-        {
-          attributes: {
-            start_time: new Date(Date.now() - 86400000).toISOString(),
-            room: 'Stora salongen',
-          },
-        },
-      ],
-    };
-    global.fetch.mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValueOnce(mockData),
-    });
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            data: [
+              {
+                attributes: {
+                  start_time: new Date(Date.now() - 86400000).toISOString(), // old showing
+                  room: 'Stora Salongen',
+                },
+              },
+            ],
+          }),
+      })
+    );
 
     const result = await screenings('123');
-    expect(result.length).toBe(0);
+    expect(result.length).toBe(0); // no showings should be returned
   });
 
   it('handles empty screening data', async () => {
-    const mockData = { data: [] };
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ data: [] }),
+      })
+    );
 
-    global.fetch.mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValueOnce(mockData),
-    });
     const result = await screenings('123');
-    expect(result.length).toBe(0);
+    expect(result.length).toBe(0); // no data should be returned
   });
-  it('handles fetch errors', async () => {
-    global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
-    await expect(screenings('123')).rejects.toThrow('Network error');
+  it('handles API errors', async () => {
+    global.fetch = jest.fn(() => Promise.reject(new Error('API error')));
+
+    const result = await screenings('123');
+    expect(result).toEqual([]); // an empty array should be returned on error
   });
 });
