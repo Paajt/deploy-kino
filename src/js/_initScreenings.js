@@ -14,7 +14,6 @@ const checkMovieScreenInfo = async () => {
       try {
         const response = await fetch(`/api/screenings/${movieID}/movie`);
         const screeningData = await response.json();
-        // const screeningData = await screenings(movieID);
 
         // check if there is data
         if (!screeningData || screeningData.length === 0) {
@@ -25,7 +24,6 @@ const checkMovieScreenInfo = async () => {
         const formattedData = screeningData.map((screening) => {
           // use until api update
           const screeningTime = new Date(screening.start_time);
-          // screeningTime.setFullYear(screeningTime.getFullYear() + 1);
           //
           const year = screeningTime.getFullYear();
           const month = (screeningTime.getMonth() + 1).toString().padStart(2, '0');
@@ -88,6 +86,5 @@ async function buildScreeningInfo() {
   }
 }
 buildScreeningInfo();
-// checkMovieScreenInfo();
 
 export default buildScreeningInfo;

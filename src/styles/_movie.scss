@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .movie__single__container {
   display: grid;
   grid-template-columns: 1fr 300px;
@@ -10,15 +12,10 @@
 
 .movie__single {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
   gap: 20px;
   grid-column: 1;
   grid-row: 1 / span 2;
-  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
 }
 
@@ -33,7 +30,7 @@
   width: 50%;
   text-align: center;
   color: #dcdcdc;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
 
   color: #dcdcdc;
 }
@@ -87,4 +84,23 @@
   border-radius: 5px;
   display: inline-block;
   margin-top: 20px;
+}
+.primary_button__back:hover {
+  background-color: #0056b3;
+}
+@media (max-width: 768px) {
+  .movie__single__container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .movie__single {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .screening__info-container {
+    grid-column: 1;
+    grid-row: 3;
+  }
 }
