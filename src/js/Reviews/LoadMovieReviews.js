@@ -1,3 +1,4 @@
+// LoadMovieReviews.js
 export default class LoadMovieReviews {
   constructor(url, movieId, page = 1, pageSize = 5) {
     this.url = url;
@@ -14,19 +15,15 @@ export default class LoadMovieReviews {
 
       if (!response.ok) throw new Error('Failed to fetch reviews');
 
-      const rawData = await response.json();
-
-      const transformedData = {
-        data: rawData.data.map((item) => ({
-          id: item.id,
-          ...item.attributes,
-        })),
-        meta: rawData.meta,
-      };
-      return transformedData;
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error('Error fetching movie reviews:', error);
-      return { data: [], meta: { pagination: {} } };
+      return { data: [], meta: { currentPage: 1, totalPages: 1 } };
     }
+  }
+
+  setPage(newPage) {
+    this.page = newPage;
   }
 }
