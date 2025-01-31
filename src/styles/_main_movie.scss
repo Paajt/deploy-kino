@@ -21,7 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     margin: 1rem auto;
-    padding: 0 1rem;
+    padding: 0;
     overflow-x: auto;
     list-style: none;
     justify-content: center;
@@ -33,6 +33,7 @@
     min-width: 15rem;
     max-width: 17rem;
     flex-shrink: 1;
+    color: black;
 
     .movie-card {
       background-color: #cdcdcd;

@@ -1,3 +1,5 @@
+// Back-end focused: deals with routing, setting up the server, fetches data from the API or mock API and renders to the EJS template. 
+
 import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
@@ -5,11 +7,11 @@ import * as marked from 'marked';
 import cmsAdapter from './cmsAdapter.js';
 import ScreeningList from '../../lib/ScreeningList.js';
 
-// Helper function to generate random date within the next 5 days
+// Function to generate random date within the next 5 days
 function getRandomDateWithinNext5Days() {
   const today = new Date();
   const maxDate = new Date();
-  maxDate.setDate(today.getDate() + 5); // 5 days later
+  maxDate.setDate(today.getDate() + 5);
 
   // Get a random date between today and 5 days later
   const randomTime = today.getTime() + Math.random() * (maxDate.getTime() - today.getTime());
@@ -71,9 +73,10 @@ function initApp(api) {
       // Generate mock screenings for the movies
       const screenings = await getUpcomingScreenings(movies);
   
-      const limitedMovies = movies.slice(0, 10); // Get the first 4 movies
+      const limitedMovies = movies.slice(0, 10);
   
-      // You might want to filter screenings to show only those within the next 5 days
+      // !!Find a way to format the time!!
+  
       const today = new Date();
       const fiveDaysLater = new Date();
       fiveDaysLater.setDate(today.getDate() + 5);

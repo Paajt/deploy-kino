@@ -1,7 +1,7 @@
 const API_MOVIES = 'https://plankton-app-xhkom.ondigitalocean.app/api';
 
 const cmsAdapter = {
-  // Original Reviews Methods
+  // Original Reviews Methods - copy from Kirill 
 
   loadAllReviews: async () => {
     const url = API_MOVIES + '/reviews';
@@ -29,8 +29,6 @@ const cmsAdapter = {
   },
 
   // New Methods for Screenings
-  
-  // Get all screenings (GET /screenings)
   
 // Get all screenings (GET /screenings)
 loadAllScreenings: async () => {

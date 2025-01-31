@@ -1,13 +1,15 @@
+// Back-end focused: deals with routing, setting up the server, fetches data from the API or mock API.
+
 import { initApp, setupVite } from './src/js/app.js';
 import { loadMovie, loadMovies } from './lib/movies.js';
-import { createServer as createViteServer } from 'vite'; // Add Vite
+import { createServer as createViteServer } from 'vite';
 import cmsAdapter from './src/js/cmsAdapter.js';
 
-// Helper function to generate random date within the next 5 days
+// Function to generate random date within the next 5 days
 function getRandomDateWithinNext5Days() {
   const today = new Date();
   const maxDate = new Date();
-  maxDate.setDate(today.getDate() + 5); // 5 days later
+  maxDate.setDate(today.getDate() + 5);
 
   // Get a random date between today and 5 days later
   const randomTime = today.getTime() + Math.random() * (maxDate.getTime() - today.getTime());
@@ -20,12 +22,13 @@ async function getUpcomingScreenings(movies) {
 
   // Create a mock screening for each movie (limit to 10)
   return movies.slice(0, 10).map(movie => {
-    // Generate a random start time for the screening
+    // Random start time
     const start_time = getRandomDateWithinNext5Days().toISOString();
     
     // Randomly pick a room
     const room = rooms[Math.floor(Math.random() * rooms.length)];
 
+    const formattedTime = formatTimeToHH(start_time);
     return {
       movieId: movie.id,
       movieTitle: movie.attributes.title,
@@ -33,6 +36,10 @@ async function getUpcomingScreenings(movies) {
       room,
     };
   });
+
+  screenings.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+
+  return screenings;
 }
 
 // Create an API object with methods
@@ -63,6 +70,8 @@ async function startServer() {
     try {
       const movies = await api.loadMovies(); // Fetch movies
       const screenings = await getUpcomingScreenings(movies); // Generate mock screenings
+      
+      console.log("Screenings data:", screenings); // trying to debug
 
       // Render homepage with movies and mock screenings data
       res.render('index.ejs', {
