@@ -27,9 +27,19 @@ const cmsAdapter = {
   fetchMovieReviews: async (movieId, page = 1, pageSize = 5) => {
     const url = `${API_MOVIES}/reviews?filters[movie]=${movieId}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     const resp = await fetch(url);
+
+    if (!resp.ok) {
+      throw new Error(`API request failed with status ${resp.status}`);
+    }
+
     const payload = await resp.json();
     return {
-      data: payload.data,
+      data: payload.data.map((item) => ({
+        id: item.id,
+        rating: item.attributes.rating,
+        comment: item.attributes.comment,
+        author: item.attributes.author,
+      })),
       meta: payload.meta,
     };
   },
