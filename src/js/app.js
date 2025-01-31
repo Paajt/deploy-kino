@@ -75,15 +75,9 @@ function initApp(api) {
       const page = parseInt(req.query.page) || 1;
       const pageSize = parseInt(req.query.pageSize) || 5;
 
-      const reviews = await getMovieReviews(cmsAdapter, movieId, page, pageSize);
+      const { reviews, meta } = await getMovieReviews(cmsAdapter, movieId, page, pageSize);
 
-      res.json({
-        reviews: reviews.data,
-        meta: {
-          currentPage: page,
-          totalPages: Math.ceil(reviews.meta.pagination.total / pageSize),
-        },
-      });
+      res.json({ reviews, meta });
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
       res.status(500).json({ error: 'Internal Server Error' });

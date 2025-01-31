@@ -34,12 +34,7 @@ const cmsAdapter = {
 
     const payload = await resp.json();
     return {
-      data: payload.data.map((item) => ({
-        id: item.id,
-        rating: item.attributes.rating,
-        comment: item.attributes.comment,
-        author: item.attributes.author,
-      })),
+      data: payload.data,
       meta: payload.meta,
     };
   },
