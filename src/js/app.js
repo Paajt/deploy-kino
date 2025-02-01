@@ -2,8 +2,9 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
-import getReviewById from './getReviewById.js';
-import cmsAdapter from './cmsAdapter.js';
+import getReviewById from './controllers/getReviewById.js';
+import createReview from './controllers/createReview.js';
+import cmsAdapter from './adaptors/cmsAdapter.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -24,6 +25,7 @@ async function setupVite(app, vite) {
 function initApp(api) {
   // create a new express application/server
   const app = express();
+
   app.use(express.json());
   // sets the view engine to EJS
   app.set('view engine', 'ejs');
@@ -75,6 +77,15 @@ function initApp(api) {
       response.status(200).json(reviews);
     } catch (error) {
       response.status(500).send('Error loading reviews');
+    }
+  });
+
+  app.post('/movie/reviews', async (request, response) => {
+    try {
+      const review = await createReview(cmsAdapter, request.body);
+      response.status(201).json(review);
+    } catch (error) {
+      response.status(500).send('Error creating review');
     }
   });
 
