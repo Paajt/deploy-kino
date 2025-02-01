@@ -4,6 +4,7 @@ import ejs from 'ejs';
 import * as marked from 'marked';
 import cmsAdapter from './cmsAdapter.js';
 import getMovieReviews from '../routes/getMovieReview.js';
+import getAverageRating from '../routes/getAverageRating.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -90,7 +91,8 @@ function initApp(api) {
       const averageRating = await getAverageRating(cmsAdapter, movieId);
       res.json({ averageRating });
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error getting average rating:', error);
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
   });
 
