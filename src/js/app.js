@@ -75,8 +75,6 @@ function initApp(api) {
   
       const limitedMovies = movies.slice(0, 10);
   
-      // !!Find a way to format the time!!
-  
       const today = new Date();
       const fiveDaysLater = new Date();
       fiveDaysLater.setDate(today.getDate() + 5);
@@ -84,7 +82,7 @@ function initApp(api) {
       const limitedScreenings = screenings.filter(screening => {
         const screeningDate = new Date(screening.start_time);
         return screeningDate >= today && screeningDate <= fiveDaysLater;
-      }).slice(0, 10); // Limit to 10 screenings if there are more
+      }).slice(0, 10); // Limit to 10 screenings
   
       // Render the EJS template with both movies and screenings data
       response.render('index.ejs', {
