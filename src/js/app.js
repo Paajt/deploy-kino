@@ -84,6 +84,16 @@ function initApp(api) {
     }
   });
 
+  app.get('/movie/:movieId/averageRating', async (req, res) => {
+    try {
+      const movieId = req.params.movieId;
+      const averageRating = await getAverageRating(cmsAdapter, movieId);
+      res.json({ averageRating });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
   // static assets
   app.use('/static', express.static('static'));
 
