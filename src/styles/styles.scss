@@ -14,6 +14,7 @@
 @use '_movie';
 @use '_error404';
 @use '_movie_reviews';
+@use '_avRating.scss';
 * {
   margin: 0;
   padding: 0;
