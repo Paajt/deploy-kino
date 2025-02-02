@@ -6,18 +6,22 @@ import MovieCardGenerator from './js/_frontpage_movie_cards.js';
 import MobileMenu from './js/MobileMenu.js';
 import initLiveEvents from './js/_initLiveEvents.js';
 import checkMovieScreenInfo from './js/_initScreenings';
-import ReviewService from './services/ReviewService.js';
+import ReviewService from './services/review/ReviewService.js';
 
 const review = document.querySelector('.review');
 console.log(review);
 
 const MYAPI = 'localhost:5080';
 
-if (review) {
-  const reviewService = new ReviewService(MYAPI);
-  reviewService.render();
-} else {
-  console.log('No review element found');
+try {
+  if (review) {
+    const reviewService = new ReviewService();
+    reviewService.render();
+  } else {
+    console.log('No review element found');
+  }
+} catch (error) {
+  console.error('Error initializing review service:', error);
 }
 
 if (window.location.pathname === '/') {

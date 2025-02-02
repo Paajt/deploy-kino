@@ -89,6 +89,15 @@ function initApp(api) {
     }
   });
 
+  app.post('/login', async (request, response) => {
+    const { username, password } = request.body;
+    if (username === 'admin' && password === 'password') {
+      response.status(200).json({ username });
+    } else {
+      response.status(401).json({ error: 'Invalid username or password' });
+    }
+  });
+
   // static assets
   app.use('/static', express.static('static'));
 
