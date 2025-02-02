@@ -70,7 +70,7 @@ function initApp(api) {
     }
   });
 
-  app.get('/api/movie/:movieId/reviews', async (req, res) => {
+  app.get('/movie/:movieId/reviews', async (req, res) => {
     try {
       const movieId = req.params.movieId;
       const page = parseInt(req.query.page) || 1;
