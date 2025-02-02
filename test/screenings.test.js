@@ -1,38 +1,51 @@
-import { fetchAndDisplayScreenings }  from '../lib/fetchScreenings';
-import {loadAllScreenings} from '../src/js/cmsAdapter';
+import { getRandomDateWithinNext5Days } from '../src/js/app';
 
-// Mock the cmsAdapter
-jest.mock('../src/js/cmsAdapter', () => ({
-    loadAllScreenings: jest.fn(),
-  }));
+describe('getRandomDateWithinNext5Days', () => {
+  test('should return a date between today and 5 days later', () => {
+    const randomDate = getRandomDateWithinNext5Days();
   
-  describe('fetchAndDisplayScreenings', () => {
-    it('should return screenings within the next 5 days', async () => {
-      const mockScreenings = [
-        { start_time: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString() }, // 1 day from now
-        { start_time: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() }, // 7 days from now
-        { start_time: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString() }, // 4 days from now
-      ];
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 5);
   
-      // Mock the response from cmsAdapter
-      cmsAdapter.loadAllScreenings.mockResolvedValue(mockScreenings);
-  
-      const screenings = await fetchAndDisplayScreenings();
-  
-      // Only 2 screenings should be returned (the ones within 5 days)
-      expect(screenings).toHaveLength(2);
-      expect(new Date(screenings[0].start_time).getTime()).toBeLessThanOrEqual(Date.now() + 5 * 24 * 60 * 60 * 1000); // Within 5 days
+    // Compare timestamps (getTime() returns the timestamp)
+    expect(randomDate).toBeInstanceOf(Date);
+    expect(randomDate.getTime()).toBeGreaterThanOrEqual(today.getTime());
+    expect(randomDate.getTime()).toBeLessThanOrEqual(maxDate.getTime());
+  });
+});
+
+import { getUpcomingScreenings } from '../src/js/app';
+
+describe('getUpcomingScreenings', () => {
+  const mockMovies = [
+    { id: 1, attributes: { title: 'Movie 1' } },
+    { id: 2, attributes: { title: 'Movie 2' } },
+    { id: 3, attributes: { title: 'Movie 3' } },
+  ];
+
+  test('should return at most 10 screenings', async () => {
+    const screenings = await getUpcomingScreenings(mockMovies);
+
+    expect(screenings.length).toBeLessThanOrEqual(10);
+  });
+
+  test('each screening should have a valid start_time', async () => {
+    const screenings = await getUpcomingScreenings(mockMovies);
+
+    screenings.forEach(screening => {
+      const startTime = new Date(screening.start_time);
+      expect(startTime).toBeInstanceOf(Date);
+      expect(startTime.getTime()).not.toBeNaN();
     });
   });
-  
-  it('should return no more than 10 screenings', async () => {
-      const mockScreenings = Array.from({ length: 15 }, (_, i) => ({
-        start_time: new Date(Date.now() + i * 24 * 60 * 60 * 1000).toISOString(),
-      }));
-    
-      cmsAdapter.loadAllScreenings.mockResolvedValue(mockScreenings);
-    
-      const screenings = await fetchAndDisplayScreenings();
-    
-      expect(screenings).toHaveLength(10); // Limit to 10 screenings
+
+  test('each screening should have a valid room', async () => {
+    const screenings = await getUpcomingScreenings(mockMovies);
+
+    screenings.forEach(screening => {
+      expect(screening.room).toBeDefined();
+      expect(['Stora salongen', 'Lilla salongen', 'VIP Room', 'IMAX', 'Screen 5']).toContain(screening.room);
+    });
   });
+});

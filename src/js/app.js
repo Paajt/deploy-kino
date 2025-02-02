@@ -8,7 +8,7 @@ import cmsAdapter from './cmsAdapter.js';
 import ScreeningList from '../../lib/ScreeningList.js';
 
 // Function to generate random date within the next 5 days
-function getRandomDateWithinNext5Days() {
+export function getRandomDateWithinNext5Days() {
   const today = new Date();
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 5);
@@ -19,7 +19,7 @@ function getRandomDateWithinNext5Days() {
 }
 
 // Function to generate mock screenings for movies
-async function getUpcomingScreenings(movies) {
+export async function getUpcomingScreenings(movies) {
   const rooms = ['Stora salongen', 'Lilla salongen', 'VIP Room', 'IMAX', 'Screen 5'];
 
   // Create a mock screening for each movie (limit to 10)
