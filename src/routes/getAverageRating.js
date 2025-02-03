@@ -1,9 +1,8 @@
 export default async function getAverageRating(cmsAdapter, movieId) {
   try {
-    const movieReviewsResponse = await cmsAdapter.fetchAverageRating(movieId);
-    const movieReviews = movieReviewsResponse.data;
+    const movieReviews = await cmsAdapter.fetchAverageRating(movieId);
 
-    if (movieReviews.length >= 5) {
+    if (Array.isArray(movieReviews) && movieReviews.length >= 5) {
       const totalRating = movieReviews.reduce((sum, review) => sum + review.attributes.rating, 0);
       const averageRating = totalRating / movieReviews.length;
       return averageRating;
