@@ -7,6 +7,8 @@ import ApiBackend from './js/ApiBackend.js';
 import MobileMenu from './js/MobileMenu.js';
 import initLiveEvents from './js/_initLiveEvents.js';
 import checkMovieScreenInfo from './js/_initScreenings';
+import screeningDOMinfo from './js/Screenings/screeningDOMInfo.js';
+
 // import { fetchAndDisplayScreenings } from './lib/fetchScreenings.js'; 
 
 // if (document.querySelector('.moviesSecond')) {
@@ -29,4 +31,8 @@ import checkMovieScreenInfo from './js/_initScreenings';
 // }
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', initLiveEvents);
+}
+
+if (window.location.pathname === '/') {
+  document.addEventListener('DOMContentLoaded', screeningDOMinfo);
 }

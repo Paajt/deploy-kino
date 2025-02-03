@@ -4,19 +4,12 @@
 <ul class="movies__list">
   <% movies.forEach((movie) => { %>
     <li>
-      <a href="/movie/<%= movie.id %>" id="<%= movie.id %>">
+      <a href="/movie/<%= movie.id %>" id="<%= movie.id %>" class ="movie-link">
         <article class="movie-card">
           <img class="movie-card__image" src="<%= movie.attributes.image.url %>" alt="Movie title: <%= movie.attributes.title %>">
           <h3 class="movie-card__title"><%= movie.attributes.title %></h3>
-          <ul class="screenings-list">
-            <% screenings.forEach(screening => { %>
-              <% if(screening.movieId === movie.id) { %>
-                <li class="screening-item">
-                  <strong><%= screening.room %>:</strong> <%= new Date(screening.start_time).toLocaleString() %>
-                </li>
-              <% } %>
-            <% }) %>
-          </ul>
+          <h3 class="movie-card__screeningPlace">Test-place</h3>
+          <h3 class="movie-card__screeningTime">Test-time</h3>
         </article>
       </a>
     </li>

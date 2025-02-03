@@ -1,4 +1,7 @@
-import { getRandomDateWithinNext5Days } from '../src/js/app';
+// Add new tests
+
+// Old tests
+/* import { getRandomDateWithinNext5Days } from '../src/js/app';
 
 describe('getRandomDateWithinNext5Days', () => {
   test('should return a date between today and 5 days later', () => {
@@ -48,4 +51,4 @@ describe('getUpcomingScreenings', () => {
       expect(['Stora salongen', 'Lilla salongen', 'VIP Room', 'IMAX', 'Screen 5']).toContain(screening.room);
     });
   });
-});
+}); */

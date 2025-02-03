@@ -4,40 +4,9 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
+import getDisplayedScreenings from './Screenings/fetchAndDisplayScreenings.js'
+import mockGetUpcomingScreenings from './Screenings/mockAdapter.js'
 import cmsAdapter from './cmsAdapter.js';
-import ScreeningList from '../../lib/ScreeningList.js';
-
-// Function to generate random date within the next 5 days
-export function getRandomDateWithinNext5Days() {
-  const today = new Date();
-  const maxDate = new Date();
-  maxDate.setDate(today.getDate() + 5);
-
-  // Get a random date between today and 5 days later
-  const randomTime = today.getTime() + Math.random() * (maxDate.getTime() - today.getTime());
-  return new Date(randomTime);
-}
-
-// Function to generate mock screenings for movies
-export async function getUpcomingScreenings(movies) {
-  const rooms = ['Stora salongen', 'Lilla salongen', 'VIP Room', 'IMAX', 'Screen 5'];
-
-  // Create a mock screening for each movie (limit to 10)
-  return movies.slice(0, 10).map(movie => {
-    // Generate a random start time for the screening
-    const start_time = getRandomDateWithinNext5Days().toISOString();
-    
-    // Randomly pick a room
-    const room = rooms[Math.floor(Math.random() * rooms.length)];
-
-    return {
-      movieId: movie.id,
-      movieTitle: movie.attributes.title,
-      start_time,
-      room,
-    };
-  });
-}
 
 // vite
 async function setupVite(app, vite) {
@@ -64,25 +33,12 @@ function initApp(api) {
   // sets view directory (the folder with EJS files)
   app.set('views', './views');
 
-  // Routes
+/*   // Routes
   app.get('/', async (request, response) => {
     try {
-      console.log('Fetching movies and screenings');
+      console.log('Fetching movies and screenings from server');
       const movies = await api.loadMovies(); // Fetch all movies
-
-      // Generate mock screenings for the movies
-      const screenings = await getUpcomingScreenings(movies);
-  
       const limitedMovies = movies.slice(0, 10);
-  
-      const today = new Date();
-      const fiveDaysLater = new Date();
-      fiveDaysLater.setDate(today.getDate() + 5);
-  
-      const limitedScreenings = screenings.filter(screening => {
-        const screeningDate = new Date(screening.start_time);
-        return screeningDate >= today && screeningDate <= fiveDaysLater;
-      }).slice(0, 10); // Limit to 10 screenings
   
       // Render the EJS template with both movies and screenings data
       response.render('index.ejs', {
@@ -92,6 +48,29 @@ function initApp(api) {
     } catch (err) {
       console.error('Error loading data', err);
       response.status(500).send('Error loading data');
+    }
+  }); */
+
+  app.get('/', async (request, response) => {
+    try {
+      const movies = await api.loadMovies();
+      const limitedMovies = movies.slice(0, 10); //gets the first 10 movies
+      response.render('index.ejs', { movies: limitedMovies });
+    } catch (err) {
+      console.error('Error loading movie', err);
+      response.status(500).send('Error loading movie');
+    }
+  });
+
+  // Jenny 
+  app.get('/movie/:movieId/screenings/upcoming', async (request, response) => {
+    try { 
+      const movieId = request.params.movieId;
+      const displayScreenings = await getDisplayedScreenings(cmsAdapter, movieId);
+      response.json(displayScreenings);  
+    } catch (err) { 
+      console.error('Error getting screenings', err);
+      response.status(500).json({err: 'Internal Server Error', message: err.message});
     }
   });
 
