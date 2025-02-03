@@ -1,6 +1,11 @@
 import getAverageRating from './getAverageRating.js';
+import { it, describe, expect, jest, beforeEach } from '@jest/globals';
 
 describe('getAverageRating()', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
   it('returns IMDB average rating when less than 5 or no valid reviews are found', async () => {
     const cmsAdapter = {
       fetchAverageRating: async () => [],
