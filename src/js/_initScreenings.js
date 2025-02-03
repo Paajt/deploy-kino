@@ -59,7 +59,7 @@ async function buildScreeningInfo() {
     if (!screeningInfo || screeningInfo.length === 0) {
       console.log('No screening data available.');
       const listItem = document.createElement('li');
-      listItem.innerHTML = ` <span class="screening-time">listan är tom</span>`;
+      listItem.innerHTML = ` <span class="screening-time">Listan är tom</span>`;
 
       screeningList.appendChild(listItem);
       return;
