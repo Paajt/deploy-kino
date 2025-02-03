@@ -11,13 +11,15 @@
     "start": "concurrently \"npm run dev:vite\" \"npm run dev:node\"",
     "dev:vite": "vite",
     "dev:node": "nodemon server.js",
-    "test": "cross-env NODE_NO_WARNINGS=1 jest --verbose"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose"
   },
   "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "testEnvironment": "node"
+    "transform": {},
+    "testEnvironment": "node",
+    "globals": {},
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   },
   "husky": {
     "hooks": {

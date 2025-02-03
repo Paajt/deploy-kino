@@ -5,6 +5,9 @@ import MovieCardGenerator from './js/_frontpage_movie_cards.js';
 // import LoadAllFilmsPage from './js/LoadAllFilmsPage.js';
 import MobileMenu from './js/MobileMenu.js';
 import initLiveEvents from './js/_initLiveEvents.js';
+
+import buildScreeningInfo from './js/_initScreenings';
+
 import checkMovieScreenInfo from './js/_initScreenings';
 
 import ReviewService from './services/review/ReviewService.js';

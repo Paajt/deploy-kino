@@ -1,6 +1,6 @@
 const API_MOVIES = 'https://plankton-app-xhkom.ondigitalocean.app/api';
 
-const cmsAdapter = {
+export const cmsAdapter = {
   loadAllReviews: async () => {
     const url = API_MOVIES + '/reviews';
     const resp = await fetch(url);
@@ -90,5 +90,18 @@ const cmsAdapter = {
     }
   },
 };
-
-export default cmsAdapter;
+export const cmsAdapterScreenings = {
+  loadAllScreenings: async () => {
+    const url = API_MOVIES + '/screenings';
+    const resp = await fetch(url);
+    const payload = await resp.json();
+    return payload.data;
+  },
+  loadScreeningById: async (id) => {
+    const url = API_MOVIES + '/screenings?filters[movie]=' + id;
+    const resp = await fetch(url);
+    const payload = await resp.json();
+    return payload.data;
+  },
+};
+export default { cmsAdapter, cmsAdapterScreenings };

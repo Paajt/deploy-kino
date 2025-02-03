@@ -2,10 +2,14 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
+
+import apiRouter from './API.js';
+
 import cors from 'cors';
 import getReviewById from './controllers/getReviewById.js';
 import createReview from './controllers/createReview.js';
-import cmsAdapter from './adaptors/cmsAdapter.js';
+// change everything to this
+import { cmsAdapter } from './adaptors/cmsAdapter.js';
 
 // import cmsAdapter from './cmsAdapter.js';
 import getMovieReviews from '../routes/getMovieReview.js';
@@ -91,6 +95,8 @@ function initApp(api) {
   //   }
   // });
 
+  app.use(apiRouter);
+
   app.post('/movie/reviews', async (request, response) => {
     try {
       const review = await createReview(cmsAdapter, request.body);
@@ -108,6 +114,7 @@ function initApp(api) {
       response.status(401).json({ error: 'Invalid username or password' });
     }
   });
+
   app.get('/movie/:movieId/reviews', async (req, res) => {
     try {
       const movieId = req.params.movieId;
