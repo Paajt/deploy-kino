@@ -14,10 +14,12 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "testEnvironment": "node"
+    "transform": {},
+    "testEnvironment": "node",
+    "globals": {},
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   },
   "husky": {
     "hooks": {
