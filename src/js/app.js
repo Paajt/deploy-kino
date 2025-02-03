@@ -2,7 +2,7 @@ import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
-
+import cors from 'cors';
 import getReviewById from './controllers/getReviewById.js';
 import createReview from './controllers/createReview.js';
 import cmsAdapter from './adaptors/cmsAdapter.js';
@@ -36,6 +36,8 @@ function initApp(api) {
   app.set('view engine', 'ejs');
   // sets view directory (the folder with EJS files)
   app.set('views', './views');
+
+  app.use(cors());
 
   // Routes
   app.get('/', async (request, response) => {

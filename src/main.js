@@ -13,10 +13,11 @@ import LoadMovieReviews from './js/Reviews/LoadMovieReviews.js';
 import PaginatedMovieReviews from './js/Reviews/PaginatedMovieReviews.js';
 import LoadAverageRating from './js/Reviews/LoadAverageRating.js';
 import AverageRating from './js/Reviews/AverageRating.js';
+import { IdUtils } from './services/utils/IdUtils.js';
 
 if (document.querySelector('.reviews__container')) {
   const apiBase = 'http://localhost:5080';
-  const movieId = window.location.pathname.split('/').pop();
+  const movieId = IdUtils.getMovieIdFromPath();
   const reviewBackend = new LoadMovieReviews(apiBase, movieId);
   const avRatingBackend = new LoadAverageRating(apiBase, movieId);
 
