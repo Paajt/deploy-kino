@@ -22,9 +22,7 @@ const checkMovieScreenInfo = async () => {
         }
 
         const formattedData = screeningData.map((screening) => {
-          // use until api update
           const screeningTime = new Date(screening.start_time);
-          //
           const year = screeningTime.getFullYear();
           const month = (screeningTime.getMonth() + 1).toString().padStart(2, '0');
           const day = screeningTime.getDate().toString().padStart(2, '0');
