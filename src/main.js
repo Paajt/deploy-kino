@@ -34,5 +34,13 @@ if (window.location.pathname === '/') {
 }
 
 if (window.location.pathname === '/') {
-  document.addEventListener('DOMContentLoaded', screeningDOMinfo);
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector(".movie-card")){screeningDOMinfo()}
+    else {
+      const noShowingElement = document.createElement("p");
+      noShowingElement.textContent = "No showings";
+      noShowingElement.classList.add("no-showings");
+      movieContainer.appendChild(noShowingElement);
+  }
+  });
 }

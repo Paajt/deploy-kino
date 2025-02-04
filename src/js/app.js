@@ -36,25 +36,47 @@ function initApp(api) {
   app.get('/', async (request, response) => {
     try {
       const movies = await api.loadMovies();
-      const limitedMovies = movies.slice(0, 10); //gets the first 10 movies
+      
+      const filteredMovies = [];
+  
+      for (let movie of movies) {
+        const movieId = movie.id;
+  
+        const displayScreenings = await getDisplayedScreenings(cmsAdapter, movieId);
+        
+        const upcomingScreenings = displayScreenings.filter(screening => {
+          const screeningDate = new Date(screening.attributes.start_time);
+          const today = new Date();
+          const maxDate = new Date(today);
+          maxDate.setDate(today.getDate() + 5);
+  
+          return screeningDate >= today && screeningDate <= maxDate;
+        });
+  
+        if (upcomingScreenings.length > 0) {
+          filteredMovies.push(movie);
+        }
+      }
+  
+      const limitedMovies = filteredMovies.slice(0, 10);
+      
       response.render('index.ejs', { movies: limitedMovies });
     } catch (err) {
-      console.error('Error loading movie', err);
-      response.status(500).send('Error loading movie');
+      console.error('Error loading movies', err);
+      response.status(500).send('Error loading movies');
     }
   });
 
-  // Jenny 
   app.get('/movie/:movieId/screenings/upcoming', async (request, response) => {
-    try { 
-      const movieId = request.params.movieId;
-      const displayScreenings = await getDisplayedScreenings(cmsAdapter, movieId);
-      response.json(displayScreenings);  
-    } catch (err) { 
-      console.error('Error getting screenings', err);
-      response.status(500).json({err: 'Internal Server Error', message: err.message});
+    try {
+        const movieId = request.params.movieId;
+        const displayScreenings = await getDisplayedScreenings(cmsAdapter, movieId);
+        response.json(displayScreenings);
+    } catch (err) {
+        console.error('Error getting screenings', err);
+        response.status(500).json({ err: 'Internal Server Error', message: err.message });
     }
-  });
+});
 
   app.get('/about-us', async (request, response) => {
     response.render('about-us.ejs');

@@ -13,7 +13,7 @@ export default async function screeningDOMinfo() {
     for (const id of IDs) {
         try {
             const screenings = await loadScreeningsByMovieId(id);
-            console.log(`Upcoming screenings for movie ID ${id}:`, screenings); // Log the screenings data
+            console.log(`Upcoming screenings for movie ID ${id}:`, screenings);
 
             const movieContainer = document.getElementById(id);
 
@@ -25,19 +25,26 @@ export default async function screeningDOMinfo() {
             const screeningPlaceElement = movieContainer.querySelector(".movie-card__screeningPlace");
             const screeningTimeElement = movieContainer.querySelector(".movie-card__screeningTime");
 
-            screenings.forEach((screening, index) => {
-                console.log(`Screening #${index + 1}:`, screening);
-
+            if (screenings.length > 0) {
+                const screening = screenings[0];
+                
                 const screeningTime = new Date(screening.attributes.start_time);
                 const screeningRoom = screening.attributes.room;
 
+                console.log(`Screening time: ${screeningTime}, Room: ${screeningRoom}`); // Debug the values
+                
                 if (screeningTime && screeningRoom) {
                     screeningPlaceElement.textContent = `Salong: ${screeningRoom}`;
                     screeningTimeElement.textContent = `Tid: ${screeningTime.toLocaleString()}`;
                 } else {
                     console.error(`Invalid screening data for movie ID ${id}:`, screening);
                 }
-            });
+            } else {
+                const noShowingElement = document.createElement("p");
+                noShowingElement.textContent = "No showings";
+                noShowingElement.classList.add("no-showings");
+                movieContainer.appendChild(noShowingElement);
+            }
 
         } catch (error) {
             console.error(`Error fetching screenings for movie ID ${id}:`, error);
