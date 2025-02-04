@@ -33,24 +33,6 @@ function initApp(api) {
   // sets view directory (the folder with EJS files)
   app.set('views', './views');
 
-/*   // Routes
-  app.get('/', async (request, response) => {
-    try {
-      console.log('Fetching movies and screenings from server');
-      const movies = await api.loadMovies(); // Fetch all movies
-      const limitedMovies = movies.slice(0, 10);
-  
-      // Render the EJS template with both movies and screenings data
-      response.render('index.ejs', {
-        movies: limitedMovies,
-        screenings: limitedScreenings
-      });
-    } catch (err) {
-      console.error('Error loading data', err);
-      response.status(500).send('Error loading data');
-    }
-  }); */
-
   app.get('/', async (request, response) => {
     try {
       const movies = await api.loadMovies();

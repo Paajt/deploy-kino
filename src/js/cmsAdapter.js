@@ -28,9 +28,8 @@ const cmsAdapter = {
     return payload.data;
   },
 
-  // New Methods for Screenings
+  // Jenny's Screenings
   
-// Get all screenings (GET /screenings)
 loadAllScreenings: async () => {
     const url = API_MOVIES + '/screenings';
   
@@ -41,35 +40,26 @@ loadAllScreenings: async () => {
   
       if (!resp.ok) {
         console.error("Error fetching screenings", resp.status);
-        return [];  // Return an empty array if the fetch fails
+        return [];
       }
   
       const payload = await resp.json();
   
       if (payload && Array.isArray(payload.data)) {
-        return payload.data;  // Return the screenings if the data exists
+        return payload.data;
       } else {
         console.error("Invalid data format:", payload);
-        return [];  // Return an empty array if the data format is not valid
+        return [];
       }
     } catch (error) {
-      // Catch any errors that happen during the fetch
       console.error("Error during fetch:", error);
-      return [];  // Return an empty array in case of an error
+      return [];
     }
   },
 
   // Get screenings by movie ID (GET /screenings?filters[movie]=id)
   loadScreeningsByMovieId: async (id) => {
     const url = API_MOVIES + `/screenings?filters[movie]=${id}`;
-    const resp = await fetch(url);
-    const payload = await resp.json();
-    return payload.data;
-  },
-
-  // Get a specific screening by ID (GET /screenings/{id})
-  loadScreeningById: async (id) => {
-    const url = API_MOVIES + `/screenings/${id}`;
     const resp = await fetch(url);
     const payload = await resp.json();
     return payload.data;

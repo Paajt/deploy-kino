@@ -1,3 +1,5 @@
+// Användaren requestar en film genom att besöka hemsidan. Skickar förfrågan till CMSAdapter.
+
 const loadScreeningsByMovieId = async (id) => {
     const url = `/movie/${id}/screenings/upcoming`;
     const resp = await fetch(url);
@@ -12,7 +14,6 @@ export default async function screeningDOMinfo () {
     const IDs = Array.prototype.map.call(moviesID, (movies) => { return movies.id });
     console.log(IDs);
 
-    // fetch screenings
     for (const id of IDs) {
         try {
             const screenings = await loadScreeningsByMovieId(id);

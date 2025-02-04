@@ -1,4 +1,4 @@
-// Back-end focused: deals with routing, setting up the server, fetches data from the API or mock API.
+// Jennys kommentar: Hanterar request från fetchAndDisplayScreenings.js med funktionen getDisplayedScreenings() för att filtrera och processa visningarna. Server.js hämtar visningarna via CMSAdapter.
 
 import { initApp, setupVite } from './src/js/app.js';
 import { loadMovie, loadMovies } from './lib/movies.js';
@@ -32,12 +32,11 @@ async function startServer() {
   // Home route to show movies and mock screenings
   app.get('/', async (req, res) => {
     try {
-      const movies = await api.loadMovies(); // Fetch movies
-      const screenings = await mockGetUpcomingScreenings(movies); // Generate mock screenings
+      const movies = await api.loadMovies();
+      const screenings = await mockGetUpcomingScreenings(movies);
 
-      // Render homepage with movies and mock screenings data
       res.render('index.ejs', {
-        movies: movies.slice(0, 10),  // Show first 10 movies
+        movies: movies.slice(0, 10), 
         screenings,  // Pass mock screenings data
       });
     } catch (err) {
