@@ -4,6 +4,7 @@ import ejs from 'ejs';
 import * as marked from 'marked';
 
 import createTopMoviesRoute from '../routes/topMoviesRoute.js';
+import { getTopMovies } from '../../lib/topMovies.js';
 
 // vite
 async function setupVite(app, vite) {
