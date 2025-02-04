@@ -47,6 +47,7 @@
       position: relative;
       display:flex;
       flex-direction: column;
+      font-size: 0.7rem;
 
       img {
         object-fit: cover;
@@ -135,5 +136,5 @@
 
 .movie-card__screeningPlace,
 .movie-card__screeningTime {
-    font-size: 1rem;
+    font-size: 0.5rem;
 }
