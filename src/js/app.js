@@ -1,8 +1,9 @@
 import express from 'express';
 import ejs from 'ejs';
-import topMoviesRoute from '../routes/topMoviesRoute.js';
 // converts markdown text in to html
 import * as marked from 'marked';
+
+import createTopMoviesRoute from '../routes/topMoviesRoute.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -70,7 +71,7 @@ function initApp(api) {
 
   // Patrik
   // API-endpoint for most popular movies
-  app.use('/api', topMoviesRoute);
+  app.use('/api', createTopMoviesRoute(api.getTopMovies));
 
   // static assets
   app.use('/static', express.static('static'));
