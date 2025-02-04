@@ -32,10 +32,6 @@ import screeningDOMinfo from './js/Screenings/screeningDOMInfo.js';
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', initLiveEvents);
 }
-/* 
-if (window.location.pathname === '/') {
-  document.addEventListener('DOMContentLoaded', screeningDOMinfo);
-} */
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector(".movie-card")){screeningDOMinfo()}

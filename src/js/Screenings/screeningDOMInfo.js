@@ -6,6 +6,8 @@ const loadScreeningsByMovieId = async (id) => {
     return payload;
 };
 
+export { loadScreeningsByMovieId };
+
 export default async function screeningDOMinfo() {
     const moviesID = document.querySelectorAll(".movie-link");
     const IDs = Array.prototype.map.call(moviesID, (movies) => { return movies.id });

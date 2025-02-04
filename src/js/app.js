@@ -5,7 +5,7 @@ import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
 import getDisplayedScreenings from './Screenings/fetchAndDisplayScreenings.js'
-import mockGetUpcomingScreenings from './Screenings/mockAdapter.js'
+// import mockGetUpcomingScreenings from './Screenings/mockAdapter.js'
 import cmsAdapter from './cmsAdapter.js';
 
 // vite

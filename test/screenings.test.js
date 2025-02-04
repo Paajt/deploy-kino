@@ -1,30 +1,117 @@
-import mockGetUpcomingScreenings from '../src/js/Screenings/mockAdapter';
+import { it, describe, expect } from '@jest/globals';
+import { getDisplayedScreenings } from '../src/js/Screenings/fetchAndDisplayScreenings';
 
-describe('mockGetUpcomingScreenings', () => {
-  const mockMovies = [
-    { id: 1, attributes: { title: 'Movie 1' } },
-    { id: 2, attributes: { title: 'Movie 2' } },
-    { id: 3, attributes: { title: 'Movie 3' } },
-  ];
+const getDisplayedScreeningsTest = getDisplayedScreenings('./fetchAndDisplayScreenings.js')
+const date = new Date()
+const mockScreenings = [
+  {
+    id:1, 
+    attributes: {
+      start_time:  date.setDate(date.getDate()+ 3).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:2, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 6).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:3, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 3).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:4, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 5).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:5, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 3).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:6, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 2).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:7, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 4).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:8, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 5).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:9, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 2).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:10, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 1).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+  {
+    id:11, 
+    attributes: {
+      start_time: date.setDate(date.getDate()+ 3).toISOString(),
+      room: 'Stora salongen'
+    },
+  },
+]
+jest.mock('getDisplayedScreenings'); 
 
-  test('should return no more than 10 screenings', async () => {
-    const screenings = mockGetUpcomingScreenings(mockMovies);
+const mockCmsAdapter = {
+  loadScreeningsByMovieId: jest.fn(),
+};
 
-    expect(screenings.length).toBeLessThanOrEqual(10);
+describe('getDisplayedScreeningsTest', () => {
+  beforeAll(() => {
+    // Mock the current date
+    const fixedDate = new Date('2025-02-04T00:00:00Z'); 
+    global.Date = jest.fn(() => fixedDate); // Mock global Date object
+
+    // Mock the loadScreeningsByMovieId method to return mocked screenings
+    mockCmsAdapter.loadScreeningsByMovieId.mockResolvedValue(mockScreenings);
   });
 
-  test('screenings should only be for the next 5 days', () => {
-    const screenings = mockGetUpcomingScreenings(mockMovies);
+  it('Should only show movies within the upcoming five days and a maximum of ten screenings', async () => {
+    // Call the function with the mock adapter and a movie ID
+    const result = await getDisplayedScreenings(mockCmsAdapter, 'someMovieId');
+    expect(result).toHaveLength(10);
 
-    const today = new Date();
-    const maxDate = new Date();
-    maxDate.setDate(today.getDate() + 5);
-
-    screenings.forEach(screening => {
-      const screeningDate = new Date(screening.start_time);
-      
-      expect(screeningDate.getTime()).toBeGreaterThanOrEqual(today.getTime());
-      expect(screeningDate.getTime()).toBeLessThanOrEqual(maxDate.getTime());
+    result.forEach(screening => {
+      const screeningDate = new Date(screening.attributes.start_time);
+      const today = new Date();
+      const fiveDaysLater = new Date();
+      fiveDaysLater.setDate(today.getDate() + 5);
+      expect(screeningDate).toBeGreaterThanOrEqual(today);
+      expect(screeningDate).toBeLessThanOrEqual(fiveDaysLater);
     });
+
+    expect(result.length).toBeLessThanOrEqual(10);
   });
 });
