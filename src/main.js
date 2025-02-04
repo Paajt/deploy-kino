@@ -32,15 +32,19 @@ import screeningDOMinfo from './js/Screenings/screeningDOMInfo.js';
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', initLiveEvents);
 }
-
+/* 
+if (window.location.pathname === '/') {
+  document.addEventListener('DOMContentLoaded', screeningDOMinfo);
+} */
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector(".movie-card")){screeningDOMinfo()}
     else {
+      const test = document.querySelector('.movies__header')
       const noShowingElement = document.createElement("p");
-      noShowingElement.textContent = "No showings";
+      noShowingElement.textContent = "Inga visningar för tillfället...";
       noShowingElement.classList.add("no-showings");
-      movieContainer.appendChild(noShowingElement);
+      test.insertAdjacentElement('afterend', noShowingElement);
   }
   });
-}
+} 
