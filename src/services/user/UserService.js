@@ -17,6 +17,6 @@ export default class UserService {
 
     dialog.close();
     dialog.remove();
-    return authDialog.result;
+    return { username: authDialog.result, status: authDialog.status };
   }
 }

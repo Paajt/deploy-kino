@@ -3,6 +3,7 @@ export default class AuthDialog extends EventTarget {
     super();
     this.api = api;
     this.result = 'Guest';
+    this.status = 'Guest';
     this.dialog = null;
   }
 
@@ -63,6 +64,7 @@ export default class AuthDialog extends EventTarget {
         const loginPayload = await this.api.login(usernameInput.value, passwordInput.value);
         const userData = await this.api.getUserData(loginPayload.token);
         this.result = userData.username;
+        this.status = userData.isVerified;
         this.dispatchEvent(new Event('auth'));
         this.dialog.close();
       } catch (error) {
