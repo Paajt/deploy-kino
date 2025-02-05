@@ -1,5 +1,3 @@
-// Jennys kommentar: Hanterar request från fetchAndDisplayScreenings.js med funktionen getDisplayedScreenings() för att filtrera och processa visningarna. Server.js hämtar visningarna via CMSAdapter.
-
 import { initApp, setupVite } from './src/js/app.js';
 import { loadMovie, loadMovies } from './lib/movies.js';
 import { createServer as createViteServer } from 'vite';
@@ -29,15 +27,12 @@ async function startServer() {
     await setupVite(app, vite);
   }
 
-  // Home route to show movies and mock screenings
   app.get('/', async (req, res) => {
     try {
       const movies = await api.loadMovies();
-      const screenings = await mockGetUpcomingScreenings(movies);
 
       res.render('index.ejs', {
-        movies: movies.slice(0, 10), 
-        screenings,  // Pass mock screenings data
+        movies: movies,
       });
     } catch (err) {
       console.error('Error loading data', err);

@@ -1,7 +1,4 @@
-// kallar efter filmerna från getDisplayedScreenings 
-
 import getDisplayedScreenings from "./fetchAndDisplayScreenings.js";
-import cmsAdapter from "../cmsAdapter.js";
 
 export async function loadMoviesAndFilter(cmsAdapter) {
   try {

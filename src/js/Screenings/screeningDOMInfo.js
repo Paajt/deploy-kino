@@ -1,4 +1,3 @@
-// Användaren requestar en film genom att besöka hemsidan. Skickar förfrågan till CMSAdapter via fetchAndDisplayScreenings.js
 const loadScreeningsByMovieId = async (id) => {
     const url = `/movie/${id}/screenings/upcoming`;
     const resp = await fetch(url);
@@ -32,8 +31,6 @@ export default async function screeningDOMinfo() {
                 
                 const screeningTime = new Date(screening.attributes.start_time);
                 const screeningRoom = screening.attributes.room;
-
-                console.log(`Screening time: ${screeningTime}, Room: ${screeningRoom}`); // Debug the values
                 
                 if (screeningTime && screeningRoom) {
                     screeningPlaceElement.textContent = `Salong: ${screeningRoom}`;

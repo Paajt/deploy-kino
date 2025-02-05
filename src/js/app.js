@@ -1,5 +1,3 @@
-// Back-end focused: deals with routing, setting up the server, fetches data from the API or mock API and renders to the EJS template. 
-
 import express from 'express';
 import ejs from 'ejs';
 // converts markdown text in to html
