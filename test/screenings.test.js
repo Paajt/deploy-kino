@@ -1,8 +1,9 @@
-import { it, describe, expect, jest, beforeEach, afterEach } from '@jest/globals';
-import loadMoviesAndFilter from '../src/js/Screenings/movieLoader.js';
-import cmsAdapter from '../src/js/cmsAdapter.js';
-
 jest.mock('../src/js/cmsAdapter.js');
+
+import { it, describe, expect, jest, beforeEach, afterEach } from '@jest/globals';
+import { loadMoviesAndFilter } from '../src/js/Screenings/movieLoader.js';
+import cmsAdapter from '../src/js/cmsAdapter.js';
+import getDisplayedScreenings from '../src/js/Screenings/fetchAndDisplayScreenings.js';
 
 const generateMockScreenings = () => {
   const date = new Date();
@@ -28,6 +29,8 @@ const mockMovies = [
 
 describe('loadMoviesAndFilter', () => {
   beforeEach(() => {
+    cmsAdapter.loadMovies = jest.fn();
+    cmsAdapter.loadScreeningsByMovieId = jest.fn();
     jest.clearAllMocks(); 
   });
 
@@ -45,19 +48,23 @@ describe('loadMoviesAndFilter', () => {
     ]);
   });
 
-  it('should return only 10 movies if there are more than 10 valid movies', async () => {
-    const mockMoviesExtended = Array.from({ length: 15 }, (_, i) => ({
-      id: i + 1,
-      title: `Movie ${i + 1}`,
-    }));
-
-    const mockScreenings = generateMockScreenings();
-
-    cmsAdapter.loadMovies.mockResolvedValue(mockMoviesExtended);
+  it('should return only 10 valid screenings for each movie if there are more than 10 valid screenings', async () => {
+    const mockScreenings = generateMockScreenings();  
+  
+    cmsAdapter.loadMovies.mockResolvedValue(mockMovies);
     cmsAdapter.loadScreeningsByMovieId.mockResolvedValue(mockScreenings);
-
+  
     const filteredMovies = await loadMoviesAndFilter(cmsAdapter);
-
-    expect(filteredMovies).toHaveLength(10);
+  
+    for (const movie of filteredMovies) {
+      const displayScreenings = await getDisplayedScreenings(cmsAdapter, movie.id);
+      
+      expect(displayScreenings).toHaveLength(10);
+    }
+  
+    expect(filteredMovies).toEqual([
+      { id: 1, title: 'Movie 1' },
+      { id: 2, title: 'Movie 2' },
+    ]);
   });
 });
