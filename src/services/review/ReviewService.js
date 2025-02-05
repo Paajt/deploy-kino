@@ -77,10 +77,10 @@ export default class ReviewService {
     });
   }
 
-  validateReview() {
+  async validateReview() {
     const comment = this.textarea.value.trim();
     const movieId = IdUtils.getMovieIdFromPath();
-    const author = UserService.getUserName();
+    const author = await UserService.showAuthDialog();
 
     ReviewValidator.validate(comment, this.selectedRating);
 
@@ -89,7 +89,7 @@ export default class ReviewService {
 
   async handleSubmit() {
     try {
-      const reviewData = this.validateReview();
+      const reviewData = await this.validateReview();
       console.log(`Film id: ${reviewData.data.movie}`);
       console.log(`Film data: ${reviewData}`);
       await ReviewSubmitter.submit(reviewData.data.movie, reviewData);
