@@ -11,8 +11,7 @@ import { cmsAdapter } from './adaptors/cmsAdapter.js';
 import getMovieReviews from '../routes/getMovieReview.js';
 import getAverageRating from '../routes/getAverageRating.js';
 import createTopMoviesRoute from '../routes/topMoviesRoute.js';
-
-const JWT_SECRET = 'aksflkasjfkashfjhqiwfkqwhfqwlhfkqlhfqklwhf2141g2';
+import userRoutes from '../services/routes/user.route.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -43,6 +42,8 @@ function initApp(api) {
   app.use(cors());
 
   // Routes
+  app.use('/', userRoutes);
+
   app.get('/', async (request, response) => {
     try {
       const movies = await api.loadMovies();

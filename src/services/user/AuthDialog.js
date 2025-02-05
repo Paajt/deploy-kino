@@ -3,7 +3,7 @@ export default class AuthDialog extends EventTarget {
     super();
     this.api = api;
     this.result = 'Guest';
-    this.status = 'Guest';
+    this.status = false;
     this.dialog = null;
   }
 
