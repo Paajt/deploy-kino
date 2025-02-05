@@ -1,5 +1,10 @@
-export default class AuthDialog {
-  constructor() {}
+export default class AuthDialog extends EventTarget {
+  constructor(api) {
+    super();
+    this.api = api;
+    this.result = 'Guest';
+    this.dialog = null;
+  }
 
   render() {
     this.dialog = document.createElement('dialog');
@@ -27,6 +32,7 @@ export default class AuthDialog {
     usernameInput.className = 'auth-input';
     usernameInput.type = 'text';
     usernameInput.id = 'username';
+    usernameInput.required = true;
 
     const passwordDiv = document.createElement('div');
     passwordDiv.className = 'input-group';
@@ -38,11 +44,32 @@ export default class AuthDialog {
     passwordInput.className = 'auth-input';
     passwordInput.type = 'password';
     passwordInput.id = 'password';
+    passwordInput.required = true;
 
     const submitButton = document.createElement('button');
     submitButton.className = 'submit-button';
     submitButton.type = 'submit';
     submitButton.textContent = 'Login';
+
+    guestSubmit.addEventListener('click', () => {
+      this.result = 'Guest';
+      this.dispatchEvent(new Event('auth'));
+      this.dialog.close();
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const loginPayload = await this.api.login(usernameInput.value, passwordInput.value);
+        const userData = await this.api.getUserData(loginPayload.token);
+        this.result = userData.username;
+        this.dispatchEvent(new Event('auth'));
+        this.dialog.close();
+      } catch (error) {
+        alert(error.message);
+        this.result = 'Guest';
+      }
+    });
 
     usernameDiv.append(usernameLabel, usernameInput);
     passwordDiv.append(passwordLabel, passwordInput);
