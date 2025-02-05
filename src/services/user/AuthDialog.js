@@ -3,8 +3,10 @@ export default class AuthDialog extends EventTarget {
     super();
     this.api = api;
     this.result = 'Guest';
-    this.status = false;
+    this.status = true;
     this.dialog = null;
+    this.isLoggedIn = false;
+    this.authBtnClick = false;
   }
 
   render() {
@@ -54,6 +56,8 @@ export default class AuthDialog extends EventTarget {
 
     guestSubmit.addEventListener('click', () => {
       this.result = 'Guest';
+      this.status = false;
+      this.authBtnClick = true;
       this.dispatchEvent(new Event('auth'));
       this.dialog.close();
     });
@@ -63,13 +67,16 @@ export default class AuthDialog extends EventTarget {
       try {
         const loginPayload = await this.api.login(usernameInput.value, passwordInput.value);
         const userData = await this.api.getUserData(loginPayload.token);
-        this.result = userData.username;
-        this.status = userData.isVerified;
+        this.result = userData.user.username;
+        this.status = userData.user.isVerified;
+        this.isLoggedIn = userData.user.isLoggedIn;
         this.dispatchEvent(new Event('auth'));
         this.dialog.close();
       } catch (error) {
-        alert(error.message);
-        this.result = 'Guest';
+        this.dialog.close();
+        this.status = false;
+        this.isLoggedIn = false;
+        this.dispatchEvent(new Event('auth'));
       }
     });
 

@@ -13,23 +13,34 @@ const login = async (req, res) => {
         {
           username: username,
           verified: true,
+          isLoggedIn: true,
         },
         JWT_SECRET
       );
 
       res.status(200).json({
-        ok: true,
         token: jwt,
+        user: {
+          username: username,
+          verified: true,
+          isLoggedIn: true,
+        },
       });
     } else {
       res.status(401).json({
-        ok: false,
+        user: {
+          username: 'Guest',
+          isLoggedIn: false,
+        },
         message: 'Invalid credentials',
       });
     }
   } catch (err) {
     res.status(500).json({
-      ok: false,
+      user: {
+        username: 'Guest',
+        isLoggedIn: false,
+      },
       message: err.message,
     });
   }
@@ -43,15 +54,18 @@ const getUser = async (req, res) => {
     const payload = jsonwebtoken.verify(token, JWT_SECRET);
 
     res.status(200).json({
-      ok: true,
       user: {
         username: payload.username,
         isVerified: payload.verified,
+        isLoggedIn: payload.isLoggedIn,
       },
     });
   } catch (err) {
     res.status(401).json({
-      ok: false,
+      user: {
+        username: 'Guest',
+        isLoggedIn: false,
+      },
       message: 'Not authorized',
     });
   }

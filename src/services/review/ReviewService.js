@@ -81,8 +81,9 @@ export default class ReviewService {
     const comment = this.textarea.value.trim();
     const movieId = IdUtils.getMovieIdFromPath();
     const author = await UserService.showAuthDialog();
+    console.log('author:', author);
 
-    ReviewValidator.validate(comment, this.selectedRating);
+    ReviewValidator.validate(comment, this.selectedRating, author);
 
     return ReviewFormatter.format(comment, this.selectedRating, movieId, author);
   }

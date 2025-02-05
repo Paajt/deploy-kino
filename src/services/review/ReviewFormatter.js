@@ -5,7 +5,7 @@ export class ReviewFormatter {
         comment,
         rating,
         author: author.username,
-        verified: author.verified,
+        verified: author.status,
         movie: movieId,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
