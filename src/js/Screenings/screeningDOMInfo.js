@@ -1,4 +1,4 @@
-// Användaren requestar en film genom att besöka hemsidan. Skickar förfrågan till CMSAdapter.
+// Användaren requestar en film genom att besöka hemsidan. Skickar förfrågan till CMSAdapter via fetchAndDisplayScreenings.js
 const loadScreeningsByMovieId = async (id) => {
     const url = `/movie/${id}/screenings/upcoming`;
     const resp = await fetch(url);

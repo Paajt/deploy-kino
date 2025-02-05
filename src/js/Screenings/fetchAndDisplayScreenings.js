@@ -1,4 +1,4 @@
-//Hittar (.movie-link) med id och skickar förfrågan till cmsAdapter via funktionen loadScreeningsByMovieId. Efter att datan hämtats processas det.
+//Hittar (.movie-link) med id och skickar förfrågan till cmsAdapter via funktionen loadScreeningsByMovieId. Efter att datan hämtats filtreras den här. 
 
 export default async function getDisplayedScreenings (cmsAdapter, movieId) {
      
