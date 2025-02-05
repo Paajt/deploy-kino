@@ -3,7 +3,7 @@ export default class AuthDialog extends EventTarget {
     super();
     this.api = api;
     this.result = 'Guest';
-    this.status = true;
+    this.status = false;
     this.dialog = null;
     this.isLoggedIn = false;
     this.authBtnClick = false;
@@ -55,8 +55,6 @@ export default class AuthDialog extends EventTarget {
     submitButton.textContent = 'Login';
 
     guestSubmit.addEventListener('click', () => {
-      this.result = 'Guest';
-      this.status = false;
       this.authBtnClick = true;
       this.dispatchEvent(new Event('auth'));
       this.dialog.close();
@@ -74,8 +72,6 @@ export default class AuthDialog extends EventTarget {
         this.dialog.close();
       } catch (error) {
         this.dialog.close();
-        this.status = false;
-        this.isLoggedIn = false;
         this.dispatchEvent(new Event('auth'));
       }
     });
