@@ -2,8 +2,8 @@
 const loadScreeningsByMovieId = async (id) => {
     const url = `/movie/${id}/screenings/upcoming`;
     const resp = await fetch(url);
-    const payload = await resp.json();
-    return payload;
+    const fetchedScreenings = await resp.json();
+    return fetchedScreenings;
 };
 
 export { loadScreeningsByMovieId };

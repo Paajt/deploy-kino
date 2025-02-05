@@ -43,12 +43,12 @@ loadAllScreenings: async () => {
         return [];
       }
   
-      const payload = await resp.json();
+      const fetchedScreenings = await resp.json();
   
-      if (payload && Array.isArray(payload.data)) {
-        return payload.data;
+      if (fetchedScreenings && Array.isArray(fetchedScreenings.data)) {
+        return fetchedScreenings.data;
       } else {
-        console.error("Invalid data format:", payload);
+        console.error("Invalid data format:", fetchedScreenings);
         return [];
       }
     } catch (error) {
@@ -61,8 +61,8 @@ loadAllScreenings: async () => {
   loadScreeningsByMovieId: async (id) => {
     const url = API_MOVIES + `/screenings?filters[movie]=${id}`;
     const resp = await fetch(url);
-    const payload = await resp.json();
-    return payload.data;
+    const fetchedScreenings = await resp.json();
+    return fetchedScreenings.data;
   },
 }
 

@@ -1,5 +1,5 @@
 import { it, describe, expect } from '@jest/globals';
-import { getDisplayedScreenings } from '../src/js/Screenings/fetchAndDisplayScreenings';
+import getDisplayedScreenings from '../src/js/Screenings/fetchAndDisplayScreenings';
 
 const getDisplayedScreeningsTest = getDisplayedScreenings('./fetchAndDisplayScreenings.js')
 const date = new Date()
