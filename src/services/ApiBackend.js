@@ -1,7 +1,5 @@
-const API_URL = '';
-
 export default class ApiBackend {
-  constructor(apiUrl = API_URL) {
+  constructor(apiUrl) {
     this.apiUrl = apiUrl;
   }
 
