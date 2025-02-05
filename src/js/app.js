@@ -5,8 +5,8 @@ import ejs from 'ejs';
 // converts markdown text in to html
 import * as marked from 'marked';
 import getDisplayedScreenings from './Screenings/fetchAndDisplayScreenings.js'
-// import mockGetUpcomingScreenings from './Screenings/mockAdapter.js'
 import cmsAdapter from './cmsAdapter.js';
+import { loadMoviesAndFilter } from './Screenings/movieLoader.js';
 
 // vite
 async function setupVite(app, vite) {
@@ -35,32 +35,8 @@ function initApp(api) {
 
   app.get('/', async (request, response) => {
     try {
-      const movies = await api.loadMovies();
-      
-      const filteredMovies = [];
-  
-      for (let movie of movies) {
-        const movieId = movie.id;
-  
-        const displayScreenings = await getDisplayedScreenings(cmsAdapter, movieId);
-        
-        const upcomingScreenings = displayScreenings.filter(screening => {
-          const screeningDate = new Date(screening.attributes.start_time);
-          const today = new Date();
-          const maxDate = new Date(today);
-          maxDate.setDate(today.getDate() + 5);
-  
-          return screeningDate >= today && screeningDate <= maxDate;
-        });
-  
-        if (upcomingScreenings.length > 0) {
-          filteredMovies.push(movie);
-        }
-      }
-  
-      const limitedMovies = filteredMovies.slice(0, 10);
-      
-      response.render('index.ejs', { movies: limitedMovies });
+      const movies = await loadMoviesAndFilter(cmsAdapter);
+      response.render('index.ejs', { movies });
     } catch (err) {
       console.error('Error loading movies', err);
       response.status(500).send('Error loading movies');
