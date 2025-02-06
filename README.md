@@ -42,26 +42,48 @@
 
 # Kino-sida: Recensioner och Genomsnittsbetyg
 
-Denna del av Kino-sidan fokuserar på att visa recensioner och beräkna genomsnittsbetyg för filmer. All data hämtas från ett CMS-API och presenteras.
-
-## Funktioner
-
-### Recensioner
-
-- Visa recensioner (betyg, kommentar och namn) för en film.
-- Paginering: Max 5 recensioner per sida med knappar för att bläddra.
-
-### Genomsnittsbetyg
-
-- Beräkna och visa genomsnittsbetyget för en film.
-- Om det finns färre än 5 recensioner, hämta betyget från IMDB.
-
-## API-dokumentation
-
-### Hämta recensioner
+### Hämta recensioner för en film
 
 `GET /movie/:movieId/reviews`  
-**Parametrar**:
+Hämtar en lista med recensioner för en specifik film.
 
-- `page`: Sidnummer (standard: 1).
-- `pageSize`: Antal recensioner per sida (standard: 5).
+### Svarsexempel
+
+{
+"reviews": [
+{
+"id": 1,
+"rating": 5,
+"comment": "Fantastisk film!",
+"author": "Alfred"
+},
+{
+"id": 2,
+"rating": 4,
+"comment": "Väldigt underhållande.",
+"author": "Henrik"
+}
+],
+"meta": {
+"currentPage": 1,
+"totalPages": 5
+}
+}
+
+### Hämta genomsnitt betyg för en film
+
+`GET /movie/:movieId/ratings/average`
+Hämtar genomsnittsbetyget från användarrecensioner om minst 5 betyg finns.
+Om färre än 5 betyg finns, hämtas betyget från IMDB istället.
+
+### Svarsexempel (användarrecensioner)
+
+{
+"averageRating": 4.2
+}
+
+### Svarsexempel (IMDB)
+
+{
+"averageRating": 4.2
+}
