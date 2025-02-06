@@ -68,6 +68,52 @@
   ]
   ```
 
+### Hämta recensioner för en film
+
+- **URL**: `/movie/:movieId/reviews`
+- **Method**: `GET`
+- **Description**: Hämtar en lista med recensioner för en specifik film.
+- **Response**: JSON-objekt with all reviews
+- **Example Response**:
+
+```
+{
+  "reviews": [
+    {
+      "id": 1,
+      "rating": 5,
+      "comment": "Fantastisk film!",
+      "author": "Alfred"
+    },
+    {
+      "id": 2,
+      "rating": 4,
+      "comment": "Super film!",
+      "author": "Henrik"
+    }
+  ],
+  "meta": {
+    "currentPage": 1,
+    "totalPages": 5
+  }
+}
+```
+
+### Hämta recensioner för en film
+
+- **URL**: `/movie/:movieId/ratings/average`
+- **Method**: `GET`
+- **Description**: Hämtar genomsnittsbetyget från användarrecensioner om minst 5 betyg finns.
+  Om färre än 5 betyg finns, hämtas betyget från IMDB istället.
+- **Response**: JSON-objekt with all reviews
+- **Example Response**:
+
+```
+{
+  "averageRating": 4.2
+}
+```
+
 ### Notes
 
 - The `/api/screenings/:id/movie` endpoint returns only screenings that have not yet started.
