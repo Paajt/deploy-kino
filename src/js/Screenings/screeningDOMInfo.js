@@ -18,7 +18,7 @@ export default async function screeningDOMinfo() {
 
     for (const id of IDs) {
         try {
-            const screenings = await getDisplayedScreenings(cmsAdapter, id);
+            const screenings = await loadScreeningsByMovieId(id);
             console.log(`Upcoming screenings for movie ID ${id}:`, screenings);
 
             const movieContainer = document.getElementById(id);
@@ -62,7 +62,7 @@ export default async function screeningDOMinfo() {
     if (screeningsAdded < 10) {
         for (const id of IDs) {
             try {
-                const screenings = await getDisplayedScreenings(cmsAdapter, id);
+                const screenings = await loadScreeningsByMovieId(id);
                 const remainingScreenings = screenings.filter(screening => !allScreenings.includes(screening));
 
                 for (const screening of remainingScreenings) {
