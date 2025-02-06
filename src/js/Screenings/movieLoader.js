@@ -1,4 +1,4 @@
-import getDisplayedScreenings from "./fetchAndDisplayScreenings.js";
+// loads the movies fetched from the API.
 
 export async function loadMoviesAndFilter(cmsAdapter) {
   try {

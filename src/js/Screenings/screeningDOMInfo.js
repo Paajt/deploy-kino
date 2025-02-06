@@ -5,7 +5,6 @@ const loadScreeningsByMovieId = async (id) => {
     const url = `/movie/${id}/screenings/upcoming`;
     const resp = await fetch(url);
     const fetchedScreenings = await resp.json();
-    console.log(`Fetched screenings for movie ID ${id}:`, fetchedScreenings);  // Debugging log
     return fetchedScreenings;
 };
 
@@ -17,7 +16,6 @@ export default async function screeningDOMinfo() {
     let screeningsAdded = 0;
     const allScreenings = [];
 
-    // See if there's at least one screening per movie
     for (const id of IDs) {
         try {
             const screenings = await getDisplayedScreenings(cmsAdapter, id);
