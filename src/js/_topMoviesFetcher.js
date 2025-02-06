@@ -17,6 +17,17 @@ class TopMoviesFetcher {
       return data;
     } catch (error) {
       console.error('Fel vid hämtning av topprankade filmer:', error);
+
+      const errorMessage = document.createElement('span');
+      errorMessage.textContent = 'Kunde inte hämta populära filmer. Försök igen senare.';
+      errorMessage.style.color = 'white';
+      errorMessage.style.textAlign = 'center';
+
+      const movieSection = document.querySelector('.topmovies');
+      if (movieSection) {
+        movieSection.appendChild(errorMessage);
+      }
+
       return []; // Return empty array when error
     }
   }
