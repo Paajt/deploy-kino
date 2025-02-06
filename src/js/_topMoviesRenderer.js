@@ -13,7 +13,7 @@ class TopMoviesRenderer {
     this.clearList();
     const loadingMessage = document.createElement('li');
     loadingMessage.classList.add('loading__top_movies');
-    loadingMessage.textContent = 'Laddar populära filmer...';
+    loadingMessage.textContent = 'Laddar topplistan...';
     this.moviesList.appendChild(loadingMessage);
   }
 
@@ -21,6 +21,8 @@ class TopMoviesRenderer {
     this.clearList();
     const errorMessage = document.createElement('li');
     errorMessage.textContent = 'Kunde inte ladda populära filmer.';
+    errorMessage.style.color = 'white';
+    errorMessage.style.textAlign = 'center';
     this.moviesList.appendChild(errorMessage);
   }
 
@@ -46,7 +48,7 @@ class TopMoviesRenderer {
 
       const movieImage = document.createElement('img');
       movieImage.classList.add('topmovie-card__image');
-      movieImage.src = movie.attributes.image.url;
+      movieImage.src = movie.attributes.image?.url || '/static/dist/images/Kino_doors.png';
       movieImage.alt = `Movie title: ${movie.attributes.title}`;
 
       const movieTitle = document.createElement('h3');
