@@ -1,7 +1,11 @@
+import { getDisplayedScreenings } from "./fetchAndDisplayScreenings";
+import cmsAdapter from "../cmsAdapter";
+
 const loadScreeningsByMovieId = async (id) => {
     const url = `/movie/${id}/screenings/upcoming`;
     const resp = await fetch(url);
     const fetchedScreenings = await resp.json();
+    console.log(`Fetched screenings for movie ID ${id}:`, fetchedScreenings);  // Debugging log
     return fetchedScreenings;
 };
 
@@ -10,10 +14,13 @@ export { loadScreeningsByMovieId };
 export default async function screeningDOMinfo() {
     const moviesID = document.querySelectorAll(".movie-link");
     const IDs = Array.prototype.map.call(moviesID, (movies) => { return movies.id });
+    let screeningsAdded = 0;
+    const allScreenings = [];
 
+    // See if there's at least one screening per movie
     for (const id of IDs) {
         try {
-            const screenings = await loadScreeningsByMovieId(id);
+            const screenings = await getDisplayedScreenings(cmsAdapter, id);
             console.log(`Upcoming screenings for movie ID ${id}:`, screenings);
 
             const movieContainer = document.getElementById(id);
@@ -23,30 +30,71 @@ export default async function screeningDOMinfo() {
                 continue;
             }
 
-            const screeningPlaceElement = movieContainer.querySelector(".movie-card__screeningPlace");
-            const screeningTimeElement = movieContainer.querySelector(".movie-card__screeningTime");
-
             if (screenings.length > 0) {
                 const screening = screenings[0];
-                
                 const screeningTime = new Date(screening.attributes.start_time);
                 const screeningRoom = screening.attributes.room;
-                
+
                 if (screeningTime && screeningRoom) {
-                    screeningPlaceElement.textContent = `Salong: ${screeningRoom}`;
-                    screeningTimeElement.textContent = `Tid: ${screeningTime.toLocaleString()}`;
+                    const screeningEntry = document.createElement("p");
+                    screeningEntry.classList.add("showings");
+                    screeningEntry.textContent = `${screeningRoom} - ${screeningTime.toLocaleString()}`;
+                    movieContainer.appendChild(screeningEntry);
+                    screeningsAdded++;
+                    allScreenings.push(screening);
                 } else {
                     console.error(`Invalid screening data for movie ID ${id}:`, screening);
                 }
             } else {
                 const noShowingElement = document.createElement("p");
-                noShowingElement.textContent = "No showings";
+                noShowingElement.textContent = "Inga visningar";
                 noShowingElement.classList.add("no-showings");
                 movieContainer.appendChild(noShowingElement);
             }
 
+            if (screeningsAdded >= 10) {
+                break;
+            }
+
         } catch (error) {
             console.error(`Error fetching screenings for movie ID ${id}:`, error);
+        }
+    }
+
+    if (screeningsAdded < 10) {
+        for (const id of IDs) {
+            try {
+                const screenings = await getDisplayedScreenings(cmsAdapter, id);
+                const remainingScreenings = screenings.filter(screening => !allScreenings.includes(screening));
+
+                for (const screening of remainingScreenings) {
+                    if (screeningsAdded >= 10) {
+                        break;
+                    }
+
+                    const screeningTime = new Date(screening.attributes.start_time);
+                    const screeningRoom = screening.attributes.room;
+
+                    if (screeningTime && screeningRoom) {
+                        const movieContainer = document.getElementById(id);
+                        const screeningEntry = document.createElement("p");
+                        screeningEntry.classList.add("showings");
+                        screeningEntry.textContent = `${screeningRoom} - ${screeningTime.toLocaleString()}`;
+                        movieContainer.appendChild(screeningEntry);
+                        screeningsAdded++;
+                        allScreenings.push(screening);
+                    } else {
+                        console.error(`Invalid screening data for movie ID ${id}:`, screening);
+                    }
+                }
+
+                if (screeningsAdded >= 10) {
+                    break;
+                }
+
+            } catch (error) {
+                console.error(`Error fetching screenings for movie ID ${id}:`, error);
+            }
         }
     }
 }

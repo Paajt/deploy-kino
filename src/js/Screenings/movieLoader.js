@@ -3,23 +3,17 @@ import getDisplayedScreenings from "./fetchAndDisplayScreenings.js";
 export async function loadMoviesAndFilter(cmsAdapter) {
   try {
     const movies = await cmsAdapter.loadMovies();
-    const filteredMovies = [];
+    const allMovies = [];
 
     for (let movie of movies) {
-      const movieId = movie.id;
-
-      const displayScreenings = await getDisplayedScreenings(cmsAdapter, movieId);
-
-      if (displayScreenings.length > 0) {
-        filteredMovies.push(movie);
-      }
+      allMovies.push(movie);
     }
 
-    return filteredMovies;
+    return allMovies;
 
   } catch (err) {
-      throw new Error('Error loading and filtered movies:' + err.message);
-    }
+    throw new Error('Error loading and filtering movies: ' + err.message);
   }
+}
 
-  export default loadMoviesAndFilter;
+export default loadMoviesAndFilter;
