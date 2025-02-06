@@ -11,8 +11,12 @@
 @use '_buttons_membership_events';
 @use '_tagline';
 @use '_all_movie';
+@use '_reviewContainer';
 @use '_movie';
 @use '_error404';
+@use '_movie_reviews';
+@use '_avRating.scss';
+
 * {
   margin: 0;
   padding: 0;
@@ -69,14 +73,13 @@ body {
   padding: 5rem;
 }
 
-
 .movies__header {
   text-align: center;
 }
 
 .no-showings {
   background-color: #cdcdcd;
-  color:#2b0404;
+  color: #2b0404;
   margin-left: 0.3rem;
   text-align: center;
   font-size: 1.2rem;
@@ -85,7 +88,7 @@ body {
 .showings {
   font-size: 1rem;
   background-color: #cdcdcd;
-  color:#2b0404;
+  color: #2b0404;
   margin-left: 0.3rem;
   padding: 0.5rem;
 }

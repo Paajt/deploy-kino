@@ -1,16 +1,17 @@
 import { initApp, setupVite } from './src/js/app.js';
 import { loadMovie, loadMovies } from './lib/movies.js';
-import { createServer as createViteServer } from 'vite';
-import cmsAdapter from './src/js/cmsAdapter.js';
+// import { createServer as createViteServer } from 'vite';
+import { cmsAdapter } from './src/js/adaptors/cmsAdapter.js'; //jenny
 
-  
-  // Create an API object with methods
-  const api = {
-    loadMovie,
-    loadMovies,
-    loadAllScreenings: cmsAdapter.loadAllScreenings,
-  };
+import { getTopMovies } from './lib/topMovies.js';
+import { createServer as createViteServer } from 'vite'; // Add Vite
 
+const api = {
+  loadMovie,
+  loadMovies,
+  getTopMovies,
+  loadAllScreenings: cmsAdapter.loadAllScreenings, //jenny
+};
 async function startServer() {
   const app = initApp(api);
 
