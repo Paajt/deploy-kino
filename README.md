@@ -68,6 +68,8 @@
   ]
   ```
 
+## Screenings API
+
 ### Hämta recensioner för en film
 
 - **URL**: `/movie/:movieId/reviews`
@@ -111,6 +113,86 @@
 ```
 {
   "averageRating": 4.2
+}
+```
+
+### Hämta recensioner för en film
+
+- **URL**: `/movie/reviews`
+- **Method**: `POST`
+- **Headers**:
+  - Content-Type: application/json
+- **Description**: Submit movie review for authenticated users
+- **Example Response**:
+
+```
+{
+  "data": {
+    "id": "456",
+    "attributes": {
+      "comment": "Great movie!",
+      "rating": 5,
+      "author": "user",
+      "movie": "123",
+      "createdAt": "2024-03-19T12:00:00.000Z"
+    }
+  }
+}
+```
+
+- **Request Body**:
+
+```
+{
+  "data": {
+    "comment": "Great movie!",
+    "rating": 5,
+    "movie": "123",
+    "author": "user"
+  }
+}
+```
+
+## Authentication API
+
+### Login
+
+- **URL**: `/login`
+- **Method**: `POST`
+- **Headers**:
+  - `Authorization`: Basic base64(username:password)
+- **Description**: Authenticates user with username and password
+- **Response**: JWT token and user data
+- **Example Response**:
+
+```
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "username": "user",
+    "verified": true,
+    "isLoggedIn": true
+  }
+}
+```
+
+### Get User Data
+
+- **URL**: `/user`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization`: Authorization: Bearer {token}
+- **Description**: Retrieves authenticated user data
+- **Response**: Username, Verified, IsLoggedIn
+- **Example Response**:
+
+```
+{
+  "user": {
+    "username": "user",
+    "isVerified": true,
+    "isLoggedIn": true
+  }
 }
 ```
 
