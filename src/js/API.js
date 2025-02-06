@@ -6,7 +6,7 @@ const router = express.Router();
 
 // screenings API
 router.get('/api/screenings', async (req, res) => {
-  const screenings = cmsAdapterScreenings.loadAllScreenings();
+  const screenings = await cmsAdapterScreenings.loadAllScreenings();
   res.json({ screenings });
 });
 
