@@ -9,6 +9,9 @@ import initLiveEvents from './js/_initLiveEvents.js';
 import buildScreeningInfo from './js/_initScreenings';
 
 import checkMovieScreenInfo from './js/_initScreenings';
+import screeningDOMinfo from './js/Screenings/screeningDOMInfo.js';
+
+// import { fetchAndDisplayScreenings } from './lib/fetchScreenings.js';
 
 import ReviewService from './services/review/ReviewService.js';
 
@@ -51,6 +54,20 @@ try {
 
 if (window.location.pathname === '/') {
   document.addEventListener('DOMContentLoaded', initLiveEvents);
+}
+
+if (window.location.pathname === '/') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.movie-card')) {
+      screeningDOMinfo();
+    } else {
+      const test = document.querySelector('.movies__header');
+      const noShowingElement = document.createElement('p');
+      noShowingElement.textContent = 'Inga visningar för tillfället...';
+      noShowingElement.classList.add('no-showings');
+      test.insertAdjacentElement('afterend', noShowingElement);
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

@@ -1,5 +1,5 @@
 import express from 'express';
-import { cmsAdapter, cmsAdapterScreenings } from './cmsAdapter.js';
+import { cmsAdapter, cmsAdapterScreenings } from './adaptors/cmsAdapter.js';
 import screenings from '../../lib/screenings.js';
 
 const router = express.Router();
