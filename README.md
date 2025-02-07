@@ -119,6 +119,65 @@
 - The `/api/screenings/:id/movie` endpoint returns only screenings that have not yet started.
 - If no upcoming screenings are found for a movie, an empty array is returned.
 
+## Top Movies API
+
+### Get top movies
+
+- **URL:** `/api/top-movies`
+- **Method:** **`GET`**
+- **Description:** Retrieves a list of the top-rated movies based on reviews from the last 30 days.
+- **Response:** JSON object containing the top movies.
+
+#### **Example Response:**
+
+```
+  {
+    "id": 3,
+    "attributes": {
+      "title": "The Shawshank Redemption",
+      "imdbId": "tt0111161",
+      "intro": "Over the course of several years, **two convicts form a friendship**, seeking consolation and, eventually, redemption through basic compassion.",
+      "image": {
+        "url": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg"
+      },
+      "createdAt": "2023-01-23T07:17:34.923Z",
+      "updatedAt": "2023-01-27T07:12:24.582Z",
+      "publishedAt": "2023-01-23T07:17:39.384Z",
+      "avgRating": 4.7
+    }
+  },
+  {
+    "id": 1,
+    "attributes": {
+      "title": "Isle of dogs",
+      "imdbId": "tt5104604",
+      "intro": "An outbreak of dog flu has spread through the city of **Megasaki, Japan**, and Mayor Kobayashi has demanded all dogs to be sent to Trash Island.",
+      "image": {
+        "url": "https://m.media-amazon.com/images/M/MV5BZDQwOWQ2NmUtZThjZi00MGM0LTkzNDctMzcyMjcyOGI1OGRkXkEyXkFqcGdeQXVyMTA3MDk2NDg2._V1_.jpg"
+      },
+      "createdAt": "2023-01-23T05:58:58.110Z",
+      "updatedAt": "2023-01-27T07:11:53.523Z",
+      "publishedAt": "2023-01-23T06:01:31.679Z",
+      "avgRating": 3.5
+    }
+  },  // Continues with 3 more movie objects...
+```
+
+### Error Handling
+
+- `200 OK` – **Request was successful.**
+- `500 Internal Server Error` – **Something went wrong on the server.**
+
+#### **Example Error Response:**
+
+```
+{
+  "error": "Could not get top rated movies"
+}
+```
+
+---
+
 ## 🚀 Vite Installation
 
 -Installing **Vite**:
