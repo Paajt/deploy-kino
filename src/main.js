@@ -35,7 +35,7 @@ if (document.querySelector('.reviews__container')) {
   const movieAvRating = new AverageRating(avRatingBackend);
   movieAvRating.renderAvRating(document.querySelector('.averageRating__container'));
 } else {
-  console.log('No reviews container found.');
+  console.log('Not on a movie page, skipping reviews.');
 }
 
 const review = document.querySelector('.review');
