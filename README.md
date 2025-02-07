@@ -68,7 +68,7 @@
   ]
   ```
 
-## Screenings API
+## Reviews API
 
 ### Hämta recensioner för en film
 
